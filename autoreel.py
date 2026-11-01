@@ -94,25 +94,25 @@ Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
 
 # ---------- 4. images ----------
 def get_image(prompt, path, keywords=None):
-    # 1) Pexels stock photo (free key from pexels.com/api)
-    key = os.environ.get("PEXELS_API_KEY")
+    # 1) Pixabay stock photo (free key from pixabay.com/api/docs/)
+    key = os.environ.get("PIXABAY_API_KEY")
     if key:
         try:
             q = keywords or " ".join(prompt.split()[:4])
-            r = requests.get("https://api.pexels.com/v1/search",
-                             headers={"Authorization": key},
-                             params={"query": q, "orientation": "portrait", "per_page": 15},
-                             timeout=60)
-            photos = r.json().get("photos", [])
-            if photos:
-                img = requests.get(random.choice(photos)["src"]["large2x"], timeout=120)
+            r = requests.get("https://pixabay.com/api/",
+                             params={"key": key, "q": q, "image_type": "photo",
+                                     "orientation": "vertical", "per_page": 20,
+                                     "safesearch": "true"}, timeout=60)
+            hits = r.json().get("hits", [])
+            if hits:
+                img = requests.get(random.choice(hits)["largeImageURL"], timeout=120)
                 if img.ok:
                     with open(path, "wb") as f:
                         f.write(img.content)
                     return
-            print("Pexels: no photos for", q, r.status_code)
+            print("Pixabay: no photos for", q, r.status_code)
         except Exception as e:
-            print("Pexels failed:", e)
+            print("Pixabay failed:", e)
     # 2) Pollinations AI image
     url = ("https://image.pollinations.ai/prompt/"
            + requests.utils.quote(prompt + ", cinematic, dramatic lighting, vertical")
