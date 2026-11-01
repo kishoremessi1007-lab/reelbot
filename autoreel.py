@@ -6,7 +6,7 @@ pip install edge-tts requests   (and ffmpeg must be installed)
 
 Env vars: GEMINI_API_KEY, IG_USER_ID, IG_ACCESS_TOKEN, optional GENRE
 """
-import os, json, asyncio, subprocess, time, random, glob, base64, requests
+import os, json, asyncio, subprocess, time, random, glob, base64, shutil, requests
 import edge_tts
 
 GEMINI_KEY = os.environ["GEMINI_API_KEY"]
@@ -148,6 +148,9 @@ def cf_image(full, path):
 
 
 DISABLED = set()   # image sources that failed once this run are skipped afterwards
+if os.environ.get("USE_GEMINI_IMAGES") != "1":
+    DISABLED.add("gemini")        # free Gemini plan has no image quota
+USE_POLLINATIONS = os.environ.get("USE_POLLINATIONS") == "1"   # now asks for payment
 
 
 def gemini_image(prompt, path):
@@ -200,18 +203,19 @@ def get_image(prompt, path, keywords=None):
                 HF_DEAD = True
         except Exception as e:
             print("HF failed:", e)
-    # 4) Pollinations
-    url = ("https://image.pollinations.ai/prompt/" + requests.utils.quote(full)
-           + f"?width=1080&height=1920&nologo=true&model=flux&seed={random.randint(1, 99999)}")
-    for _ in range(2):
-        try:
-            r = requests.get(url, timeout=120)
-            if _save_if_image(r, path):
-                return
-            print("Pollinations status:", r.status_code)
-        except requests.RequestException as e:
-            print("Pollinations failed:", e)
-        time.sleep(4)
+    if USE_POLLINATIONS:
+        # 4) Pollinations
+        url = ("https://image.pollinations.ai/prompt/" + requests.utils.quote(full)
+               + f"?width=1080&height=1920&nologo=true&model=flux&seed={random.randint(1, 99999)}")
+        for _ in range(2):
+            try:
+                r = requests.get(url, timeout=120)
+                if _save_if_image(r, path):
+                    return
+                print("Pollinations status:", r.status_code)
+            except requests.RequestException as e:
+                print("Pollinations failed:", e)
+            time.sleep(4)
     # 5) Pixabay stock photo
     key = os.environ.get("PIXABAY_API_KEY")
     if key:
@@ -343,22 +347,37 @@ def build_video(part, out_path, style=""):
 
 # ---------- 7. post to Instagram ----------
 def upload_public(path):
-    """Put the video on a free temporary public link (no account needed)."""
-    hosts = [
-        ("https://litterbox.catbox.moe/resources/internals/api.php", {"reqtype": "fileupload", "time": "1h"}),
-        ("https://catbox.moe/user/api.php", {"reqtype": "fileupload"}),
-    ]
-    for url, extra in hosts:
+    """Host the video on this repo's GitHub Pages site so Instagram can download it.
+    Needs: repo is Public, and Settings > Pages > Deploy from branch main, folder /docs."""
+    repo = os.environ.get("GITHUB_REPOSITORY")          # "owner/name", set by GitHub Actions
+    if not repo:
+        raise RuntimeError("GITHUB_REPOSITORY not set (not running in GitHub Actions)")
+    owner, name = repo.split("/")
+    os.makedirs("docs", exist_ok=True)
+    for old in glob.glob("docs/*.mp4"):                  # keep the repo small
+        os.remove(old)
+    fname = f"reel-{int(time.time())}.mp4"
+    shutil.copy(path, f"docs/{fname}")
+    open("docs/.nojekyll", "a").close()
+    for cmd in (["git", "config", "user.name", "reel-bot"],
+                ["git", "config", "user.email", "bot@users.noreply.github.com"],
+                ["git", "add", "-A", "docs"],
+                ["git", "commit", "-m", f"publish {fname}"],
+                ["git", "push"]):
+        subprocess.run(cmd, check=True)
+    url = f"https://{owner.lower()}.github.io/{name}/{fname}"
+    print("Waiting for GitHub Pages to publish:", url)
+    for _ in range(40):                                  # up to ~6 minutes
         try:
-            with open(path, "rb") as f:
-                r = requests.post(url, data=extra,
-                                  files={"fileToUpload": ("reel.mp4", f, "video/mp4")}, timeout=300)
-            print("Host", url.split("/")[2], r.status_code, r.text[:200])
-            if r.ok and r.text.strip().startswith("http"):
-                return r.text.strip()
-        except Exception as e:
-            print("Host failed:", url, e)
-    raise RuntimeError("no public host worked")
+            h = requests.head(url, allow_redirects=True, timeout=30)
+            if h.status_code == 200:
+                print("Video is live:", h.headers.get("content-type"), h.headers.get("content-length"))
+                return url
+            print("Pages status:", h.status_code)
+        except requests.RequestException as e:
+            print("Pages check failed:", e)
+        time.sleep(10)
+    raise RuntimeError("GitHub Pages never served the video. Is the repo Public and Pages turned on (main, /docs)?")
 
 
 def container_from_url(path, caption):
@@ -393,15 +412,15 @@ def container_resumable(path, caption):
 
 def post_reel(path, caption):
     cid = None
-    for attempt in range(1, 6):          # Meta's direct upload fails at random, so retry
+    for attempt in range(1, 3):          # Meta's direct upload fails often, so only try twice
         try:
             cid = container_resumable(path, caption)
             break
         except Exception as e:
-            print(f"Direct upload attempt {attempt}/5 failed:", e)
-            time.sleep(25)
+            print(f"Direct upload attempt {attempt}/2 failed:", e)
+            time.sleep(10)
     if cid is None:
-        print("Trying public-link method as a last resort")
+        print("Switching to the GitHub Pages link method")
         cid = container_from_url(path, caption)
     for _ in range(60):
         s = requests.get(f"{GRAPH}/{cid}", params={
