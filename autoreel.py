@@ -1,15 +1,14 @@
-
 """
 Auto AI story reels: writes a 6-part story, makes one part per run
 (voice + images + burned-in captions) and posts it to Instagram as a Reel.
- 
+
 pip install edge-tts requests   (and ffmpeg must be installed)
- 
+
 Env vars: GEMINI_API_KEY, IG_USER_ID, IG_ACCESS_TOKEN, optional GENRE
 """
 import os, json, asyncio, subprocess, time, random, requests
 import edge_tts
- 
+
 GEMINI_KEY = os.environ["GEMINI_API_KEY"]
 IG_USER_ID = os.environ["IG_USER_ID"]
 IG_TOKEN = os.environ["IG_ACCESS_TOKEN"]
@@ -20,8 +19,8 @@ STATE = "state.json"
 GRAPH = "https://graph.facebook.com/v21.0"
 WORK = "work"
 os.makedirs(WORK, exist_ok=True)
- 
- 
+
+
 # ---------- 1. story ----------
 def gen_story():
     prompt = f"""Write an original, gripping {GENRE} story split into exactly {PARTS} parts for Instagram Reels.
@@ -45,8 +44,8 @@ Return ONLY JSON:
     story = json.loads(r.json()["candidates"][0]["content"]["parts"][0]["text"])
     assert len(story["parts"]) == PARTS
     return story
- 
- 
+
+
 # ---------- 2. voice + word timings ----------
 async def tts(text, path):
     comm = edge_tts.Communicate(text, VOICE, boundary="WordBoundary")
@@ -59,30 +58,30 @@ async def tts(text, path):
                 start = ch["offset"] / 1e7
                 words.append((start, start + ch["duration"] / 1e7, ch["text"]))
     return words
- 
- 
+
+
 def duration(path):
     out = subprocess.check_output(
         ["ffprobe", "-v", "error", "-show_entries", "format=duration",
          "-of", "default=nw=1:nk=1", path])
     return float(out.strip())
- 
- 
+
+
 # ---------- 3. captions (ASS, 3 words at a time) ----------
 def ass_time(t):
     return f"{int(t // 3600)}:{int(t % 3600 // 60):02d}:{t % 60:05.2f}"
- 
- 
+
+
 def make_ass(words, path):
     header = """[Script Info]
 ScriptType: v4.00+
 PlayResX: 1080
 PlayResY: 1920
- 
+
 [V4+ Styles]
 Format: Name,Fontname,Fontsize,PrimaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
 Style: Default,DejaVu Sans,84,&H0000FFFF,&H00000000,&H00000000,1,0,0,0,100,100,0,0,1,7,0,5,60,60,0,1
- 
+
 [Events]
 Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
 """
@@ -94,8 +93,8 @@ Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
         lines.append(f"Dialogue: 0,{ass_time(g[0][0])},{ass_time(end)},Default,,0,0,0,,{text}")
     with open(path, "w", encoding="utf-8") as f:
         f.write(header + "\n".join(lines))
- 
- 
+
+
 # ---------- 4. images ----------
 def get_image(prompt, path, keywords=None):
     # 1) Pixabay stock photo (free key from pixabay.com/api/docs/)
@@ -135,8 +134,8 @@ def get_image(prompt, path, keywords=None):
     # 3) last resort: dark plain frame so the run never crashes
     subprocess.run(["ffmpeg", "-y", "-f", "lavfi", "-i", "color=c=0x14141f:s=1080x1920",
                     "-frames:v", "1", path], check=True, capture_output=True)
- 
- 
+
+
 # ---------- 5. build video ----------
 def build_video(part, out_path):
     audio = f"{WORK}/voice.mp3"
@@ -147,7 +146,7 @@ def build_video(part, out_path):
         step = dur / len(toks)
         words = [(i * step, (i + 1) * step, w) for i, w in enumerate(toks)]
     make_ass(words, f"{WORK}/cap.ass")
- 
+
     prompts = part["image_prompts"]
     clip_len = (dur + 0.5) / len(prompts)
     frames = int(clip_len * 30)
@@ -162,7 +161,7 @@ def build_video(part, out_path):
              "-frames:v", str(frames), "-c:v", "libx264", "-preset", "veryfast", clip],
             check=True, capture_output=True)
         clips.append(clip)
- 
+
     with open(f"{WORK}/list.txt", "w") as f:
         for c in clips:
             f.write(f"file '{os.path.basename(c)}'\n")
@@ -174,31 +173,68 @@ def build_video(part, out_path):
          "-c:a", "aac", "-b:a", "128k", "-ar", "44100", "-ac", "2",
          "-shortest", "-movflags", "+faststart", out_path],
         check=True, capture_output=True)
- 
- 
+
+
 # ---------- 6. post to Instagram ----------
-def post_reel(path, caption):
+def upload_public(path):
+    """Put the video on a free temporary public link (no account needed)."""
+    hosts = [
+        ("https://litterbox.catbox.moe/resources/internals/api.php", {"reqtype": "fileupload", "time": "1h"}),
+        ("https://catbox.moe/user/api.php", {"reqtype": "fileupload"}),
+    ]
+    for url, extra in hosts:
+        try:
+            with open(path, "rb") as f:
+                r = requests.post(url, data=extra,
+                                  files={"fileToUpload": ("reel.mp4", f, "video/mp4")}, timeout=300)
+            print("Host", url.split("/")[2], r.status_code, r.text[:200])
+            if r.ok and r.text.strip().startswith("http"):
+                return r.text.strip()
+        except Exception as e:
+            print("Host failed:", url, e)
+    raise RuntimeError("no public host worked")
+
+
+def container_from_url(path, caption):
+    video_url = upload_public(path)
+    print("Public video URL:", video_url)
+    r = requests.post(f"{GRAPH}/{IG_USER_ID}/media", data={
+        "media_type": "REELS", "video_url": video_url,
+        "caption": caption, "access_token": IG_TOKEN})
+    print("Container (url) response:", r.status_code, r.text[:300])
+    r.raise_for_status()
+    return r.json()["id"]
+
+
+def container_resumable(path, caption):
     r = requests.post(f"{GRAPH}/{IG_USER_ID}/media", data={
         "media_type": "REELS", "upload_type": "resumable",
         "caption": caption, "access_token": IG_TOKEN})
-    if not r.ok:
-        print("Create container error:", r.status_code, r.text[:500])
+    print("Container (resumable) response:", r.status_code, r.text[:300])
     r.raise_for_status()
-    print("Container response:", r.text[:300])
     cid = r.json()["id"]
     uri = r.json().get("uri") or f"https://rupload.facebook.com/ig-api-upload/v21.0/{cid}"
     with open(path, "rb") as f:
         data = f.read()
-    print("Video size bytes:", len(data))
     u = requests.post(uri, headers={
         "Authorization": f"OAuth {IG_TOKEN}", "offset": "0",
         "file_size": str(len(data)),
         "Content-Type": "application/octet-stream"}, data=data, timeout=900)
     print("Upload response:", u.status_code, u.text[:500])
     u.raise_for_status()
+    return cid
+
+
+def post_reel(path, caption):
+    try:
+        cid = container_from_url(path, caption)
+    except Exception as e:
+        print("URL method failed, trying direct upload:", e)
+        cid = container_resumable(path, caption)
     for _ in range(60):
         s = requests.get(f"{GRAPH}/{cid}", params={
-            "fields": "status_code", "access_token": IG_TOKEN}).json()
+            "fields": "status_code,status", "access_token": IG_TOKEN}).json()
+        print("Status:", s)
         if s.get("status_code") == "FINISHED":
             break
         if s.get("status_code") == "ERROR":
@@ -206,12 +242,11 @@ def post_reel(path, caption):
         time.sleep(10)
     p = requests.post(f"{GRAPH}/{IG_USER_ID}/media_publish", data={
         "creation_id": cid, "access_token": IG_TOKEN})
-    if not p.ok:
-        print("Publish error:", p.status_code, p.text[:500])
+    print("Publish response:", p.status_code, p.text[:300])
     p.raise_for_status()
     print("Posted:", p.json())
- 
- 
+
+
 # ---------- main ----------
 def main():
     state = json.load(open(STATE)) if os.path.exists(STATE) else None
@@ -219,19 +254,18 @@ def main():
         state = {"story": gen_story(), "next": 1}
     story, n = state["story"], state["next"]
     part = story["parts"][n - 1]
- 
+
     out = f"{WORK}/part{n}.mp4"
     build_video(part, out)
- 
+
     hook = part["narration"].split(".")[0].strip() + "."
     tail = f"Follow for Part {n + 1}/{PARTS} 👇" if n < PARTS else "The end. Want another story? Follow! 🔔"
     caption = f"{story['title']} | Part {n}/{PARTS}\n\n{hook}\n\n{tail}\n\n{' '.join(story['hashtags'])}"
     post_reel(out, caption)
- 
+
     state["next"] = n + 1
     json.dump(state, open(STATE, "w"), indent=2)
- 
- 
+
+
 if __name__ == "__main__":
     main()
- 
