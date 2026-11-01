@@ -392,11 +392,17 @@ def container_resumable(path, caption):
 
 
 def post_reel(path, caption):
-    try:
+    cid = None
+    for attempt in range(1, 6):          # Meta's direct upload fails at random, so retry
+        try:
+            cid = container_resumable(path, caption)
+            break
+        except Exception as e:
+            print(f"Direct upload attempt {attempt}/5 failed:", e)
+            time.sleep(25)
+    if cid is None:
+        print("Trying public-link method as a last resort")
         cid = container_from_url(path, caption)
-    except Exception as e:
-        print("URL method failed, trying direct upload:", e)
-        cid = container_resumable(path, caption)
     for _ in range(60):
         s = requests.get(f"{GRAPH}/{cid}", params={
             "fields": "status_code,status", "access_token": IG_TOKEN}).json()
@@ -418,6 +424,7 @@ def main():
     state = json.load(open(STATE)) if os.path.exists(STATE) else None
     if not state or state["next"] > PARTS:
         state = {"story": gen_story(), "next": 1}
+        json.dump(state, open(STATE, "w"), indent=2)   # keep the story even if posting fails
     story, n = state["story"], state["next"]
     part = story["parts"][n - 1]
 
