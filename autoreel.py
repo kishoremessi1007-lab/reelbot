@@ -12,7 +12,25 @@ import edge_tts
 GEMINI_KEY = os.environ["GEMINI_API_KEY"]
 IG_USER_ID = os.environ["IG_USER_ID"]
 IG_TOKEN = os.environ["IG_ACCESS_TOKEN"]
-GENRE = os.environ.get("GENRE", "horror mystery")
+# GENRE can be one style or several separated by | ; one is picked at random for each new story
+GENRES = [g.strip() for g in os.environ.get(
+    "GENRE", "horror mystery|ghost story|creepy village legend|haunted object horror|psychological horror|"
+             "survival horror|paranormal investigation").split("|") if g.strip()]
+HEROES = [
+    "a lonely night-shift nurse", "a stray dog", "a talking mango tree", "a crow that watches over a village",
+    "a child's old toy", "an old fisherman", "a night bus conductor", "a whispering banana plant",
+    "a street cat", "a village well", "a goat herder", "a schoolteacher", "a coconut seller",
+    "a camera that records the future", "a twin sister", "an antique mirror", "an old radio",
+    "a taxi driver", "a temple bell", "a pumpkin on a farm", "a pair of anklets", "a lighthouse keeper",
+    "a delivery boy", "a scarecrow", "a young doctor", "an elephant at a forest camp", "a lost tourist",
+    "a hostel student", "a haunted doll", "a talking parrot",
+]
+SETTINGS = [
+    "a remote village at night", "an abandoned hospital", "a foggy hill station", "a sleeping train at midnight",
+    "an old palace", "a rainy coastal town", "a deserted school", "a dense jungle", "a night market",
+    "a cemetery road", "a farmhouse in the paddy fields", "a lonely highway", "an old cinema theatre",
+    "a flooded temple", "a hostel at night", "a mountain tunnel",
+]
 PARTS = 6
 N_IMAGES = int(os.environ.get("N_IMAGES", "6"))          # scenes per video (more = faster cuts)
 VOICE = os.environ.get("VOICE", "en-US-ChristopherNeural")
@@ -29,9 +47,19 @@ os.makedirs(WORK, exist_ok=True)
 
 
 # ---------- 1. story ----------
-def gen_story():
+def gen_story(history=None):
+    history = history or []
+    genre = random.choice(GENRES)
+    hero = os.environ.get("STORY_HERO") or random.choice(HEROES)
+    setting = os.environ.get("STORY_SETTING") or random.choice(SETTINGS)
+    print(f"New story -> genre: {genre} | hero: {hero} | setting: {setting}")
     ph = ", ".join(['"..."'] * N_IMAGES)
-    prompt = f"""Write an original, gripping {GENRE} story split into exactly {PARTS} parts for Instagram Reels.
+    avoid = ("Do NOT reuse the plot, twist or title of these earlier stories: " + "; ".join(history[-15:]) + "."
+             if history else "")
+    prompt = f"""Write an original, gripping {genre} story split into exactly {PARTS} parts for Instagram Reels.
+Main character: {hero}. Setting: {setting}.
+If the main character is an animal, plant or object, it can think, feel and (if it fits) speak, but keep the story scary and serious.
+{avoid}
 Rules:
 - Each part: 90-130 words of narration, simple spoken language, no stage directions.
 - Part 1 opens with a shocking one-sentence hook.
@@ -442,7 +470,9 @@ def post_reel(path, caption):
 def main():
     state = json.load(open(STATE)) if os.path.exists(STATE) else None
     if not state or state["next"] > PARTS:
-        state = {"story": gen_story(), "next": 1}
+        history = (state or {}).get("history", [])
+        story = gen_story(history)
+        state = {"story": story, "next": 1, "history": history + [story.get("title", "")]}
         json.dump(state, open(STATE, "w"), indent=2)   # keep the story even if posting fails
     story, n = state["story"], state["next"]
     part = story["parts"][n - 1]
