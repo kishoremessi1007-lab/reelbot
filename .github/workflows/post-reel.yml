@@ -30,7 +30,6 @@ jobs:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
-          GENRE: "horror mystery"
       - name: Keep the finished video (download it if posting ever fails)
         if: always()
         uses: actions/upload-artifact@v4
