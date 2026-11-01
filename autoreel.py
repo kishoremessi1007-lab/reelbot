@@ -28,7 +28,7 @@ Rules:
 - Each part: 90-130 words of narration, simple spoken language, no stage directions.
 - Part 1 opens with a shocking one-sentence hook.
 - Parts 1 to {PARTS - 1} end on a cliffhanger. The last part resolves everything.
-- Each part has 4 image prompts describing vivid, consistent visual scenes (no text in images).
+- Each part has 4 image prompts (vivid scenes) and 4 matching stock_keywords (2-3 word photo search terms, e.g. 'dark forest night', 'old empty house').
 Return ONLY JSON:
 {{"title": "...", "hashtags": ["#a","#b","#c","#d","#e"],
  "parts": [{{"narration": "...", "image_prompts": ["...","...","...","..."]}}]}}"""
@@ -93,21 +93,44 @@ Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
 
 
 # ---------- 4. images ----------
-def get_image(prompt, path):
-    url = ("https://image.pollinations.ai/prompt/"
-           + requests.utils.quote(prompt + ", cinematic, dramatic lighting, vertical, highly detailed")
-           + f"?width=1080&height=1920&nologo=true&seed={random.randint(1, 99999)}")
-    for _ in range(4):
+def get_image(prompt, path, keywords=None):
+    # 1) Pexels stock photo (free key from pexels.com/api)
+    key = os.environ.get("PEXELS_API_KEY")
+    if key:
         try:
-            r = requests.get(url, timeout=180)
+            q = keywords or " ".join(prompt.split()[:4])
+            r = requests.get("https://api.pexels.com/v1/search",
+                             headers={"Authorization": key},
+                             params={"query": q, "orientation": "portrait", "per_page": 15},
+                             timeout=60)
+            photos = r.json().get("photos", [])
+            if photos:
+                img = requests.get(random.choice(photos)["src"]["large2x"], timeout=120)
+                if img.ok:
+                    with open(path, "wb") as f:
+                        f.write(img.content)
+                    return
+            print("Pexels: no photos for", q, r.status_code)
+        except Exception as e:
+            print("Pexels failed:", e)
+    # 2) Pollinations AI image
+    url = ("https://image.pollinations.ai/prompt/"
+           + requests.utils.quote(prompt + ", cinematic, dramatic lighting, vertical")
+           + f"?width=1080&height=1920&nologo=true&seed={random.randint(1, 99999)}")
+    for _ in range(2):
+        try:
+            r = requests.get(url, timeout=120)
             if r.ok and r.headers.get("content-type", "").startswith("image"):
                 with open(path, "wb") as f:
                     f.write(r.content)
                 return
-        except requests.RequestException:
-            pass
-        time.sleep(8)
-    raise RuntimeError("image generation failed")
+            print("Pollinations status:", r.status_code)
+        except requests.RequestException as e:
+            print("Pollinations failed:", e)
+        time.sleep(5)
+    # 3) last resort: dark plain frame so the run never crashes
+    subprocess.run(["ffmpeg", "-y", "-f", "lavfi", "-i", "color=c=0x14141f:s=1080x1920",
+                    "-frames:v", "1", path], check=True, capture_output=True)
 
 
 # ---------- 5. build video ----------
@@ -127,10 +150,11 @@ def build_video(part, out_path):
     clips = []
     for i, p in enumerate(prompts):
         img, clip = f"{WORK}/img{i}.jpg", f"{WORK}/clip{i}.mp4"
-        get_image(p, img)
+        kws = part.get('stock_keywords', [None] * len(prompts))
+        get_image(p, img, kws[i] if i < len(kws) else None)
         subprocess.run(
             ["ffmpeg", "-y", "-i", img, "-vf",
-             f"scale=1080:1920,zoompan=z='min(zoom+0.0007,1.25)':d={frames}:s=1080x1920:fps=30,format=yuv420p",
+             f"scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,zoompan=z='min(zoom+0.0007,1.25)':d={frames}:s=1080x1920:fps=30,format=yuv420p",
              "-frames:v", str(frames), "-c:v", "libx264", "-preset", "veryfast", clip],
             check=True, capture_output=True)
         clips.append(clip)
