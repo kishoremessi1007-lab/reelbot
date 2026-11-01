@@ -31,12 +31,15 @@ Rules:
 - Each part has 4 image prompts (vivid scenes) and 4 matching stock_keywords (2-3 word photo search terms, e.g. 'dark forest night', 'old empty house').
 Return ONLY JSON:
 {{"title": "...", "hashtags": ["#a","#b","#c","#d","#e"],
- "parts": [{{"narration": "...", "image_prompts": ["...","...","...","..."]}}]}}"""
+ "parts": [{{"narration": "...", "image_prompts": ["...","...","...","..."], "stock_keywords": ["...","...","...","..."]}}]}}"""
     r = requests.post(
-        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_KEY}",
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+        headers={"x-goog-api-key": GEMINI_KEY.strip()},
         json={"contents": [{"parts": [{"text": prompt}]}],
               "generationConfig": {"responseMimeType": "application/json"}},
         timeout=120)
+    if not r.ok:
+        print("Gemini error", r.status_code, r.text[:500])
     r.raise_for_status()
     story = json.loads(r.json()["candidates"][0]["content"]["parts"][0]["text"])
     assert len(story["parts"]) == PARTS
@@ -175,13 +178,17 @@ def post_reel(path, caption):
     r = requests.post(f"{GRAPH}/{IG_USER_ID}/media", data={
         "media_type": "REELS", "upload_type": "resumable",
         "caption": caption, "access_token": IG_TOKEN})
+    if not r.ok:
+        print("Create container error:", r.status_code, r.text[:500])
     r.raise_for_status()
+    print("Container response:", r.text[:300])
     cid = r.json()["id"]
     uri = r.json().get("uri") or f"https://rupload.facebook.com/ig-api-upload/v21.0/{cid}"
     with open(path, "rb") as f:
         u = requests.post(uri, headers={
             "Authorization": f"OAuth {IG_TOKEN}", "offset": "0",
             "file_size": str(os.path.getsize(path))}, data=f, timeout=600)
+    print("Upload response:", u.status_code, u.text[:500])
     u.raise_for_status()
     for _ in range(60):
         s = requests.get(f"{GRAPH}/{cid}", params={
@@ -193,6 +200,8 @@ def post_reel(path, caption):
         time.sleep(10)
     p = requests.post(f"{GRAPH}/{IG_USER_ID}/media_publish", data={
         "creation_id": cid, "access_token": IG_TOKEN})
+    if not p.ok:
+        print("Publish error:", p.status_code, p.text[:500])
     p.raise_for_status()
     print("Posted:", p.json())
 
