@@ -26,9 +26,21 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
           GENRE: "horror mystery"
+      - name: Keep the finished video (download it if posting ever fails)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reel-video
+          path: work/part*.mp4
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Save story progress
+        if: always()
         run: |
           git config user.name "reel-bot"
           git config user.email "bot@users.noreply.github.com"
