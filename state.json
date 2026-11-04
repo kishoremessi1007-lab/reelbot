@@ -1,63 +1,66 @@
 {
-  "series_id": "auto_speed_trap",
-  "series_title": "Urulai Cop vs Thaluku Thakkali",
-  "next_part": 4,
+  "series_id": "crime_pantry_heist",
+  "genre": "CRIME THRILLER",
+  "genre_badge": "🕵️ CRIME THRILLER",
+  "series_title": "The Midnight Pantry Heist",
+  "bgm": "comedy_bouncy_loop.wav",
+  "next_part": 2,
   "parts": [
     {
       "part_num": 1,
-      "title": "Part 1: The Auto Signal Speed Trap",
+      "title": "Part 1: The Broken Lock at 2 AM",
       "cliffhanger": {
-        "question_en": "Will Thakkali escape the Sambar pot?",
-        "question_ta": "தக்காளி தப்பிப்பானா? மாட்டிக்கொள்வானா?",
-        "cta": "Follow & Subscribe for Part 2 Tomorrow! 🔔"
+        "question_en": "Who broke the safe at 2:00 AM?",
+        "question_ta": "நள்ளிரவு 2 மணிக்கு லாக்கரை உடைத்தது யார்?",
+        "cta": "Follow for Part 2 Tomorrow! 🔔"
       },
       "dialogues": [
         {
           "speaker": "urulai_cop",
-          "badge": "URULAI INSPECTOR",
-          "clip_src": "urulai_talk_1.mp4",
-          "tamil_text": "டேய் தளுக்கு முழுக்கு தக்காளி! ஒழுங்கா நில்லுடா!",
-          "tanglish_text": "Dei Thaluku Muluku Thakkali!\nOzhunga Nilluda!",
+          "badge": "DETECTIVE URULAI",
+          "clip_src": "urulai_walk_in.mp4",
+          "tamil_text": "அனைவரும் அசையாமல் நில்லுங்கள்! கிச்சன் லாக்கர்ல இருந்த குங்குமப்பூ டப்பா காணாம போயிருக்கு!",
+          "tanglish_text": "Anaivarum asaiyaamal nillungal!\nKitchen safe kungumapoo box missing!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
-          "sfx": "police_whistle.wav"
+          "sfx": "dramatic_hit.wav"
         },
         {
           "speaker": "thakkali",
-          "badge": "THALUKU THAKKALI",
-          "clip_src": "thakkali_talk_1.mp4",
-          "tamil_text": "சார் நான் ஒன்னும் தப்பு பண்ணல சார்! ஆட்டோ ஓட்டி பொழப்பு நடத்துறேன்!",
-          "tanglish_text": "Sir naan onnum thappu pannala sir!\nAuto otti pozhappu nadathuren!",
+          "badge": "SUSPECT THAKKALI",
+          "clip_src": "thakkali_ooh.mp4",
+          "tamil_text": "சார்! நான் நேத்து ராத்திரி முழுக்க ஃப்ரிட்ஜ் டோர் பின்னாடி தூங்கிட்டு தான் சார் இருந்தேன்!",
+          "tanglish_text": "Sir! Naan night fulla fridge door\npinnaadi dhaan thoongittu irundhen sir!",
           "voice_ta": "ta-IN-PallaviNeural",
           "voice_en": "en-US-GuyNeural",
-          "sfx": "funny_whistle.wav"
+          "sfx": "impact.wav"
         },
         {
           "speaker": "urulai_cop",
-          "badge": "URULAI INSPECTOR",
+          "badge": "DETECTIVE URULAI",
           "clip_src": "urulai_point_finger.mp4",
-          "tamil_text": "ஆட்டோ ஓட்டுறதுக்கும் உன் அடைமொழிக்கும் என்னலே சம்பந்தம்?! இன்னும் பேசுனா சாம்பார்ல வேக வச்சுருவேன்!",
-          "tanglish_text": "Auto otturadhukkum ada mozhikkum\nennale sambandham?! Sambar-la vendhuruva!",
+          "tamil_text": "தூங்குனியா? அப்போ அந்த லாக்கர் பக்கத்துல கிடந்த சிவப்பு தக்காளி விதைகளுக்கு என்ன பதில்?!",
+          "tanglish_text": "Thoonguniya? Appo locker pakkathula\nkidantha red tomato seeds-ku enna badhil?!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
           "sfx": "punch_thud.wav"
         },
         {
-          "speaker": "thakkali",
-          "badge": "THALUKU THAKKALI",
-          "clip_src": "thakkali_talk_2.mp4",
-          "tamil_text": "சார் தக்காளி விலை ஏறுனா நாங்க என்ன பண்ணுவோம்? எங்களை குருமாவுல போடுங்க, சாம்பார் வேண்டாம்!",
-          "tanglish_text": "Thakkali rate yeruna naanga enna pannuvom?\nKurma-la podunga, sambar vendaam!",
+          "speaker": "thengai",
+          "badge": "WITNESS THENGAI",
+          "clip_src": "thengai_shy.mp4",
+          "tamil_text": "இன்ஸ்பெக்டர் சார்! நான் ஒன்னு பார்த்தேன்... லாக்கர் பக்கம் ஒரு பெரிய நிழல் நடந்து போச்சு!",
+          "tanglish_text": "Inspector sir! Naan onnu paarthen...\nLocker pakkam oru periya shadow pochu!",
           "voice_ta": "ta-IN-PallaviNeural",
-          "voice_en": "en-US-GuyNeural",
-          "sfx": "boing.wav"
+          "voice_en": "en-US-JennyNeural",
+          "sfx": "whoosh.wav"
         },
         {
           "speaker": "urulai_cop",
-          "badge": "URULAI INSPECTOR",
+          "badge": "DETECTIVE URULAI",
           "clip_src": "urulai_talk_3.mp4",
-          "tamil_text": "டேய் சைலன்ஸ்! உனக்கு நாளைக்கு இருக்கு தண்டனை! ஜெயில்ல தள்ளுறேன்டா!",
-          "tanglish_text": "Dei Silence! Unakku naalaikku\nirukku thandanai! Jail-la thalluren da!",
+          "tamil_text": "பெரிய நிழலா?! இந்த கிச்சன்ல ஒரு பெரிய சதி நடக்குது! கைரேகை டெஸ்ட் எடுக்கிறேன்டா!",
+          "tanglish_text": "Periya shadow-va?! Indha kitchen-la\noru periya sadhi! Fingerprint edukkurom!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
           "sfx": "dramatic_hit.wav"
@@ -66,39 +69,29 @@
     },
     {
       "part_num": 2,
-      "title": "Part 2: The Witnesses Arrive",
+      "title": "Part 2: The Red Footprint Clue",
       "cliffhanger": {
-        "question_en": "What secret will Bitter Gourd reveal?",
-        "question_ta": "பாகற்காய் என்ன ரகசியம் சொல்ல போகிறான்?",
-        "cta": "Watch Final Part 3 Tomorrow! Follow! 🔔"
+        "question_en": "Whose footprint was on the flour bag?",
+        "question_ta": "மைதா மாவு மூட்டை மேல இருந்தது யாருடைய காலடி?",
+        "cta": "Watch Climax Part 3 Tomorrow! 🔔"
       },
       "dialogues": [
         {
-          "speaker": "thakkali",
-          "badge": "THALUKU THAKKALI",
-          "clip_src": "thakkali_ooh.mp4",
-          "tamil_text": "சார்! நான் சாட்சிக்கு தேங்காய் அக்காவையும் மாங்காய் அண்ணியையும் கூட்டிட்டு வந்துட்டேன்!",
-          "tanglish_text": "Sir! Saatchikku Thengai akkavaiyum\nMaangai anniyaiyum koottitu vandhutten!",
-          "voice_ta": "ta-IN-PallaviNeural",
+          "speaker": "paavakkai",
+          "badge": "PAAVAKKAI",
+          "clip_src": "paavakkai_cry.mp4",
+          "tamil_text": "சார்! மைதா மாவு மூட்டை மேல சின்னதா ஒரு விரல் தடம் இருக்கு சார்! யாரோ ஓடி போயிருக்காங்க!",
+          "tanglish_text": "Sir! Maida mookai mela oru footprint\nirukku sir! Yaaro odi poirukaanga!",
+          "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-GuyNeural",
-          "sfx": "funny_whistle.wav"
-        },
-        {
-          "speaker": "thengai",
-          "badge": "THENGAI AKKA",
-          "clip_src": "thengai_shy.mp4",
-          "tamil_text": "ஆமாங்க சார், தக்காளி தம்பி நேத்து முழுக்க சட்னி அரைக்க கூட போகல, ரொம்ப நல்ல பையன் சார்!",
-          "tanglish_text": "Aamanga sir, Thakkali thambi nalla paiyan!\nChutney araikka kooda pogala!",
-          "voice_ta": "ta-IN-PallaviNeural",
-          "voice_en": "en-US-JennyNeural",
-          "sfx": "boing.wav"
+          "sfx": "impact.wav"
         },
         {
           "speaker": "urulai_cop",
-          "badge": "URULAI INSPECTOR",
+          "badge": "DETECTIVE URULAI",
           "clip_src": "urulai_mustache.mp4",
-          "tamil_text": "ஏய் சட்னி கில்டி கதையெல்லாம் என்கிட்ட விடாதீங்க! நான் யாரு தெரியுமா? உரிச்சு வச்ச உருளைடா!",
-          "tanglish_text": "Chutney story-ellam enkitta vendaam!\nNaan yaaru theriyuma? Urulai da!",
+          "tamil_text": "மீசையை முறுக்குறேன்... குற்றவாளி ரொம்ப பக்கத்துல தான் இருக்கான்! வெங்காயம்! முன்னாடி வா!",
+          "tanglish_text": "Meesaiyai murukkuren... Criminal romba\npakkathula dhaan irukaan! Vengayam come here!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
           "sfx": "police_whistle.wav"
@@ -107,18 +100,28 @@
           "speaker": "vengayam",
           "badge": "VENGAYAM",
           "clip_src": "vengayam_talk.mp4",
-          "tamil_text": "சார் நீங்க பேசாம இவனை பிரியாணில சேர்க்க சொல்லுங்க, சாம்பார விட அங்க தான் கௌரவம்!",
-          "tanglish_text": "Sir ivana Biryani-la serkka sollunga!\nSambar-a vida anga dhaan gethu!",
+          "tamil_text": "சார்! என் கண்ணுல வர்றது குற்ற உணர்ச்சி இல்ல சார், இயற்கை குணம்! நான் குங்குமப்பூவை தொடவே இல்ல!",
+          "tanglish_text": "Sir! En kanneer thappu illa sir!\nNaan saffron thodave illa sir!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-GuyNeural",
           "sfx": "punch_thud.wav"
         },
         {
+          "speaker": "thakkali",
+          "badge": "THALUKU THAKKALI",
+          "clip_src": "thakkali_talk_1.mp4",
+          "tamil_text": "சார் எனக்கு ஒரு சந்தேகம்! அந்த சிசிடிவி கேமரா பக்கத்துல நின்னது யாருன்னு பாருங்க!",
+          "tanglish_text": "Sir enakku oru doubt! CCTV camera\npakkathula ninnadhu yaaru-nu paarunga!",
+          "voice_ta": "ta-IN-PallaviNeural",
+          "voice_en": "en-US-GuyNeural",
+          "sfx": "whoosh.wav"
+        },
+        {
           "speaker": "urulai_cop",
-          "badge": "URULAI INSPECTOR",
+          "badge": "DETECTIVE URULAI",
           "clip_src": "urulai_angry_stop.mp4",
-          "tamil_text": "டேய் வெங்காயம்! நடுவுல வந்து அழுது கண்ணீர் வர வைக்காத! நாளைக்கு பாக்ஸ்ல பூட்டுறேன்டா!",
-          "tanglish_text": "Dei Vengayam! Naduvula azhadha!\nNaalaikku box-la pooturen da!",
+          "tamil_text": "சிசிடிவி ஃபுட்டேஜ் வந்துருச்சு! அடுத்த 10 நிமிஷத்துல திருடன் யாருன்னு வெளிச்சத்துக்கு வரும்!",
+          "tanglish_text": "CCTV footage vandhuruchu!\nNext 10 mins-la thief maatuvaan da!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
           "sfx": "dramatic_hit.wav"
@@ -127,59 +130,49 @@
     },
     {
       "part_num": 3,
-      "title": "Part 3: The Secret in the Potato Bowl",
+      "title": "Part 3: The CCTV Revelation",
       "cliffhanger": {
-        "question_en": "Who is the next vegetable criminal?",
-        "question_ta": "அடுத்த எபிசோடில் யார் சிக்குவார்கள்?",
-        "cta": "Follow for Brand New Episode Tomorrow! 🔔"
+        "question_en": "Case Closed! Who will be the next suspect?",
+        "question_ta": "வழக்கு முடிந்தது! அடுத்த வழக்கில் யார் சிக்குவார்கள்?",
+        "cta": "Follow for Brand New Mystery Saga! 🔔"
       },
       "dialogues": [
         {
-          "speaker": "paavakkai",
-          "badge": "PAAVAKKAI",
-          "clip_src": "paavakkai_cry.mp4",
-          "tamil_text": "சார் சார்! நான் ஒரு பெரிய உண்மையை கண்டுபுடிச்சிட்டேன்! உருளை சாருக்கு தோல் உரிக்கவே இல்லையாம்!",
-          "tanglish_text": "Sir sir! Oru periya unmai kandupidichitten!\nUrulai sir thol urikkave illaiyam!",
-          "voice_ta": "ta-IN-ValluvarNeural",
-          "voice_en": "en-US-GuyNeural",
-          "sfx": "funny_whistle.wav"
-        },
-        {
           "speaker": "urulai_cop",
-          "badge": "URULAI INSPECTOR",
-          "clip_src": "urulai_potato_bowl.mp4",
-          "tamil_text": "டேய் பாகற்காய்! இந்த மேஜைல இருக்குற வேகவச்ச உருளையை பாரு! என் மாமனாரையே வேக வச்சுட்டாங்கடா!",
-          "tanglish_text": "Dei Paavakkai! Indha bowl-a paaru!\nEn maamanaare vendhuttaaru da!",
+          "badge": "DETECTIVE URULAI",
+          "clip_src": "urulai_talk_1.mp4",
+          "tamil_text": "வீடியோவ பாருங்கடா! குங்குமப்பூவை எடுத்தது இந்த மாங்காய் அண்ணி தான்!",
+          "tanglish_text": "Video paarunga da! Kungumapoo\neduthadhu indha Maangai dhaan!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
-          "sfx": "punch_thud.wav"
+          "sfx": "dramatic_hit.wav"
+        },
+        {
+          "speaker": "maangai",
+          "badge": "MAANGAI",
+          "clip_src": "maangai_smile.mp4",
+          "tamil_text": "அய்யோ சார்! மாங்காய் பச்சடிக்கு கொஞ்சம் கலர் பத்தலன்னு தான் ஒரே ஒரு சிட்டிகை எடுத்தேன் சார்!",
+          "tanglish_text": "Aiyo sir! Pachadi-ku color pathala-nu\nore oru pinch dhaan eduthen sir!",
+          "voice_ta": "ta-IN-PallaviNeural",
+          "voice_en": "en-US-JennyNeural",
+          "sfx": "boing.wav"
         },
         {
           "speaker": "thakkali",
           "badge": "THALUKU THAKKALI",
           "clip_src": "thakkali_laugh.mp4",
-          "tamil_text": "அப்போ நாங்க யாரும் ஜெயிலுக்கு போக வேண்டாமா சார்? நாங்க பொரியல் ஆகாம தப்பிச்சுட்டோமா?!",
-          "tanglish_text": "Appo naanga jail-ku poga vendaama sir?\nPoriyal aagama thappichuttoma?!",
+          "tamil_text": "அப்பாடா! அப்போ என் மேல தப்பு இல்ல! தக்காளி தம்பி நேர்மையானவன்னு ஊருக்கே தெரிஞ்சிருச்சு!",
+          "tanglish_text": "Appada! En mela thappu illa!\nThakkali honest-nu therinjuruchu!",
           "voice_ta": "ta-IN-PallaviNeural",
           "voice_en": "en-US-GuyNeural",
-          "sfx": "boing.wav"
-        },
-        {
-          "speaker": "split_laugh",
-          "badge": "VEGGIE GANG",
-          "clip_src": "split_laugh.mp4",
-          "tamil_text": "ஹா ஹா ஹா! உருளை போலீஸ்காரர் மாமனாரு உருளைக்கிழங்கு போண்டாவா போய்ட்டாராம்!",
-          "tanglish_text": "Ha ha ha! Urulai Police maamanaaru\nBonda aayittaaraam!",
-          "voice_ta": "ta-IN-PallaviNeural",
-          "voice_en": "en-US-JennyNeural",
           "sfx": "funny_whistle.wav"
         },
         {
           "speaker": "urulai_cop",
-          "badge": "URULAI INSPECTOR",
+          "badge": "DETECTIVE URULAI",
           "clip_src": "urulai_talk_3.mp4",
-          "tamil_text": "டேய் தக்காளி! நீ தப்பிச்சுட்டன்னு குதிக்காத! அடுத்த எபிசோட்ல உன்ன மறுபடியும் மடக்குறேன்டா!",
-          "tanglish_text": "Dei Thakkali! Next episode-la unna\nmarubadiyum madakkuren da!",
+          "tamil_text": "டேய் தக்காளி ரொம்ப குதிக்காத! நாளைக்கு உனக்கு ஒரு புது கேஸ் காத்துட்டு இருக்குடா!",
+          "tanglish_text": "Dei Thakkali kudhikaadha!\nNaalaikku unakku pudhu case irukku da!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
           "sfx": "dramatic_hit.wav"
@@ -188,15 +181,15 @@
     }
   ],
   "tags": [
-    "tamilcomedy",
-    "urulaicop",
-    "thakkali",
-    "comedyreels",
+    "crimethriller",
+    "detective",
+    "tamilmystery",
     "shorts",
     "reels",
-    "viralcomedy"
+    "suspense"
   ],
   "series_history": [
-    "auto_speed_trap"
+    "auto_speed_trap",
+    "crime_pantry_heist"
   ]
 }
