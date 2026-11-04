@@ -1,0 +1,202 @@
+{
+  "series_id": "auto_speed_trap",
+  "series_title": "Urulai Cop vs Thaluku Thakkali",
+  "next_part": 2,
+  "parts": [
+    {
+      "part_num": 1,
+      "title": "Part 1: The Auto Signal Speed Trap",
+      "cliffhanger": {
+        "question_en": "Will Thakkali escape the Sambar pot?",
+        "question_ta": "தக்காளி தப்பிப்பானா? மாட்டிக்கொள்வானா?",
+        "cta": "Follow & Subscribe for Part 2 Tomorrow! 🔔"
+      },
+      "dialogues": [
+        {
+          "speaker": "urulai_cop",
+          "badge": "URULAI INSPECTOR",
+          "clip_src": "urulai_talk_1.mp4",
+          "tamil_text": "டேய் தளுக்கு முழுக்கு தக்காளி! ஒழுங்கா நில்லுடா!",
+          "tanglish_text": "Dei Thaluku Muluku Thakkali!\nOzhunga Nilluda!",
+          "voice_ta": "ta-IN-ValluvarNeural",
+          "voice_en": "en-US-ChristopherNeural",
+          "sfx": "police_whistle.wav"
+        },
+        {
+          "speaker": "thakkali",
+          "badge": "THALUKU THAKKALI",
+          "clip_src": "thakkali_talk_1.mp4",
+          "tamil_text": "சார் நான் ஒன்னும் தப்பு பண்ணல சார்! ஆட்டோ ஓட்டி பொழப்பு நடத்துறேன்!",
+          "tanglish_text": "Sir naan onnum thappu pannala sir!\nAuto otti pozhappu nadathuren!",
+          "voice_ta": "ta-IN-PallaviNeural",
+          "voice_en": "en-US-GuyNeural",
+          "sfx": "funny_whistle.wav"
+        },
+        {
+          "speaker": "urulai_cop",
+          "badge": "URULAI INSPECTOR",
+          "clip_src": "urulai_point_finger.mp4",
+          "tamil_text": "ஆட்டோ ஓட்டுறதுக்கும் உன் அடைமொழிக்கும் என்னலே சம்பந்தம்?! இன்னும் பேசுனா சாம்பார்ல வேக வச்சுருவேன்!",
+          "tanglish_text": "Auto otturadhukkum ada mozhikkum\nennale sambandham?! Sambar-la vendhuruva!",
+          "voice_ta": "ta-IN-ValluvarNeural",
+          "voice_en": "en-US-ChristopherNeural",
+          "sfx": "punch_thud.wav"
+        },
+        {
+          "speaker": "thakkali",
+          "badge": "THALUKU THAKKALI",
+          "clip_src": "thakkali_talk_2.mp4",
+          "tamil_text": "சார் தக்காளி விலை ஏறுனா நாங்க என்ன பண்ணுவோம்? எங்களை குருமாவுல போடுங்க, சாம்பார் வேண்டாம்!",
+          "tanglish_text": "Thakkali rate yeruna naanga enna pannuvom?\nKurma-la podunga, sambar vendaam!",
+          "voice_ta": "ta-IN-PallaviNeural",
+          "voice_en": "en-US-GuyNeural",
+          "sfx": "boing.wav"
+        },
+        {
+          "speaker": "urulai_cop",
+          "badge": "URULAI INSPECTOR",
+          "clip_src": "urulai_talk_3.mp4",
+          "tamil_text": "டேய் சைலன்ஸ்! உனக்கு நாளைக்கு இருக்கு தண்டனை! ஜெயில்ல தள்ளுறேன்டா!",
+          "tanglish_text": "Dei Silence! Unakku naalaikku\nirukku thandanai! Jail-la thalluren da!",
+          "voice_ta": "ta-IN-ValluvarNeural",
+          "voice_en": "en-US-ChristopherNeural",
+          "sfx": "dramatic_hit.wav"
+        }
+      ]
+    },
+    {
+      "part_num": 2,
+      "title": "Part 2: The Witnesses Arrive",
+      "cliffhanger": {
+        "question_en": "What secret will Bitter Gourd reveal?",
+        "question_ta": "பாகற்காய் என்ன ரகசியம் சொல்ல போகிறான்?",
+        "cta": "Watch Final Part 3 Tomorrow! Follow! 🔔"
+      },
+      "dialogues": [
+        {
+          "speaker": "thakkali",
+          "badge": "THALUKU THAKKALI",
+          "clip_src": "thakkali_ooh.mp4",
+          "tamil_text": "சார்! நான் சாட்சிக்கு தேங்காய் அக்காவையும் மாங்காய் அண்ணியையும் கூட்டிட்டு வந்துட்டேன்!",
+          "tanglish_text": "Sir! Saatchikku Thengai akkavaiyum\nMaangai anniyaiyum koottitu vandhutten!",
+          "voice_ta": "ta-IN-PallaviNeural",
+          "voice_en": "en-US-GuyNeural",
+          "sfx": "funny_whistle.wav"
+        },
+        {
+          "speaker": "thengai",
+          "badge": "THENGAI AKKA",
+          "clip_src": "thengai_shy.mp4",
+          "tamil_text": "ஆமாங்க சார், தக்காளி தம்பி நேத்து முழுக்க சட்னி அரைக்க கூட போகல, ரொம்ப நல்ல பையன் சார்!",
+          "tanglish_text": "Aamanga sir, Thakkali thambi nalla paiyan!\nChutney araikka kooda pogala!",
+          "voice_ta": "ta-IN-PallaviNeural",
+          "voice_en": "en-US-JennyNeural",
+          "sfx": "boing.wav"
+        },
+        {
+          "speaker": "urulai_cop",
+          "badge": "URULAI INSPECTOR",
+          "clip_src": "urulai_mustache.mp4",
+          "tamil_text": "ஏய் சட்னி கில்டி கதையெல்லாம் என்கிட்ட விடாதீங்க! நான் யாரு தெரியுமா? உரிச்சு வச்ச உருளைடா!",
+          "tanglish_text": "Chutney story-ellam enkitta vendaam!\nNaan yaaru theriyuma? Urulai da!",
+          "voice_ta": "ta-IN-ValluvarNeural",
+          "voice_en": "en-US-ChristopherNeural",
+          "sfx": "police_whistle.wav"
+        },
+        {
+          "speaker": "vengayam",
+          "badge": "VENGAYAM",
+          "clip_src": "vengayam_talk.mp4",
+          "tamil_text": "சார் நீங்க பேசாம இவனை பிரியாணில சேர்க்க சொல்லுங்க, சாம்பார விட அங்க தான் கௌரவம்!",
+          "tanglish_text": "Sir ivana Biryani-la serkka sollunga!\nSambar-a vida anga dhaan gethu!",
+          "voice_ta": "ta-IN-ValluvarNeural",
+          "voice_en": "en-US-GuyNeural",
+          "sfx": "punch_thud.wav"
+        },
+        {
+          "speaker": "urulai_cop",
+          "badge": "URULAI INSPECTOR",
+          "clip_src": "urulai_angry_stop.mp4",
+          "tamil_text": "டேய் வெங்காயம்! நடுவுல வந்து அழுது கண்ணீர் வர வைக்காத! நாளைக்கு பாக்ஸ்ல பூட்டுறேன்டா!",
+          "tanglish_text": "Dei Vengayam! Naduvula azhadha!\nNaalaikku box-la pooturen da!",
+          "voice_ta": "ta-IN-ValluvarNeural",
+          "voice_en": "en-US-ChristopherNeural",
+          "sfx": "dramatic_hit.wav"
+        }
+      ]
+    },
+    {
+      "part_num": 3,
+      "title": "Part 3: The Secret in the Potato Bowl",
+      "cliffhanger": {
+        "question_en": "Who is the next vegetable criminal?",
+        "question_ta": "அடுத்த எபிசோடில் யார் சிக்குவார்கள்?",
+        "cta": "Follow for Brand New Episode Tomorrow! 🔔"
+      },
+      "dialogues": [
+        {
+          "speaker": "paavakkai",
+          "badge": "PAAVAKKAI",
+          "clip_src": "paavakkai_cry.mp4",
+          "tamil_text": "சார் சார்! நான் ஒரு பெரிய உண்மையை கண்டுபுடிச்சிட்டேன்! உருளை சாருக்கு தோல் உரிக்கவே இல்லையாம்!",
+          "tanglish_text": "Sir sir! Oru periya unmai kandupidichitten!\nUrulai sir thol urikkave illaiyam!",
+          "voice_ta": "ta-IN-ValluvarNeural",
+          "voice_en": "en-US-GuyNeural",
+          "sfx": "funny_whistle.wav"
+        },
+        {
+          "speaker": "urulai_cop",
+          "badge": "URULAI INSPECTOR",
+          "clip_src": "urulai_potato_bowl.mp4",
+          "tamil_text": "டேய் பாகற்காய்! இந்த மேஜைல இருக்குற வேகவச்ச உருளையை பாரு! என் மாமனாரையே வேக வச்சுட்டாங்கடா!",
+          "tanglish_text": "Dei Paavakkai! Indha bowl-a paaru!\nEn maamanaare vendhuttaaru da!",
+          "voice_ta": "ta-IN-ValluvarNeural",
+          "voice_en": "en-US-ChristopherNeural",
+          "sfx": "punch_thud.wav"
+        },
+        {
+          "speaker": "thakkali",
+          "badge": "THALUKU THAKKALI",
+          "clip_src": "thakkali_laugh.mp4",
+          "tamil_text": "அப்போ நாங்க யாரும் ஜெயிலுக்கு போக வேண்டாமா சார்? நாங்க பொரியல் ஆகாம தப்பிச்சுட்டோமா?!",
+          "tanglish_text": "Appo naanga jail-ku poga vendaama sir?\nPoriyal aagama thappichuttoma?!",
+          "voice_ta": "ta-IN-PallaviNeural",
+          "voice_en": "en-US-GuyNeural",
+          "sfx": "boing.wav"
+        },
+        {
+          "speaker": "split_laugh",
+          "badge": "VEGGIE GANG",
+          "clip_src": "split_laugh.mp4",
+          "tamil_text": "ஹா ஹா ஹா! உருளை போலீஸ்காரர் மாமனாரு உருளைக்கிழங்கு போண்டாவா போய்ட்டாராம்!",
+          "tanglish_text": "Ha ha ha! Urulai Police maamanaaru\nBonda aayittaaraam!",
+          "voice_ta": "ta-IN-PallaviNeural",
+          "voice_en": "en-US-JennyNeural",
+          "sfx": "funny_whistle.wav"
+        },
+        {
+          "speaker": "urulai_cop",
+          "badge": "URULAI INSPECTOR",
+          "clip_src": "urulai_talk_3.mp4",
+          "tamil_text": "டேய் தக்காளி! நீ தப்பிச்சுட்டன்னு குதிக்காத! அடுத்த எபிசோட்ல உன்ன மறுபடியும் மடக்குறேன்டா!",
+          "tanglish_text": "Dei Thakkali! Next episode-la unna\nmarubadiyum madakkuren da!",
+          "voice_ta": "ta-IN-ValluvarNeural",
+          "voice_en": "en-US-ChristopherNeural",
+          "sfx": "dramatic_hit.wav"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "tamilcomedy",
+    "urulaicop",
+    "thakkali",
+    "comedyreels",
+    "shorts",
+    "reels",
+    "viralcomedy"
+  ],
+  "series_history": [
+    "auto_speed_trap"
+  ]
+}
