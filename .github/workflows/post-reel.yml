@@ -1,0 +1,55 @@
+name: post-reel
+on:
+  schedule:
+    - cron: "30 3 * * *"    # 9:00 AM IST (Morning Story & Reel)
+    - cron: "30 13 * * *"   # 7:00 PM IST (Evening Story & Reel)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-dejavu-core fonts-lohit-taml
+          pip install edge-tts requests pillow numpy
+      - name: Generate & Publish Reel / Story
+        run: python autoreel.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+          LANGUAGE: ${{ vars.LANGUAGE || 'tamil' }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          POST_TO_STORIES: "1"
+          POST_TO_REELS: "1"
+          POST_TO_YOUTUBE: "1"
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      - name: Save finished episode artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-reel-video
+          path: work/*.mp4
+          if-no-files-found: ignore
+          retention-days: 14
+      - name: Save series state progress
+        if: always()
+        run: |
+          git config user.name "reel-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add state.json
+          git commit -m "update story series state" || true
+          git push
