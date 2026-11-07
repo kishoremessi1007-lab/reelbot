@@ -1,56 +1,56 @@
 {
-  "series_id": "horror_haunted_pantry",
-  "genre": "HORROR MYSTERY",
-  "genre_badge": "👻 HORROR MYSTERY",
-  "series_title": "The Haunted Kitchen at 3 AM",
+  "series_id": "courtroom_sambar_trial",
+  "genre": "COURTROOM DRAMA",
+  "genre_badge": "⚖️ COURTROOM DRAMA",
+  "series_title": "The Great Sambar Trial",
   "bgm": "comedy_bouncy_loop.wav",
-  "next_part": 4,
+  "next_part": 2,
   "parts": [
     {
       "part_num": 1,
-      "title": "Part 1: The Whispers in the Dark",
+      "title": "Part 1: Order in the Court!",
       "cliffhanger": {
-        "question_en": "What made the mixer turn on at 3 AM?",
-        "question_ta": "நள்ளிரவு 3 மணிக்கு மிக்ஸியை ஆன் செய்தது யார்?",
-        "cta": "Follow for Spine-Chilling Part 2! 🔔"
+        "question_en": "Will the Judge convict Tomato to the boiling pot?",
+        "question_ta": "தக்காளிக்கு கொதிக்கும் பாத்திர தண்டனை கிடைக்குமா?",
+        "cta": "Follow for Part 2 Tomorrow! 🔔"
       },
       "dialogues": [
         {
-          "speaker": "thakkali",
-          "badge": "TERRIFIED THAKKALI",
-          "clip_src": "thakkali_ooh.mp4",
-          "tamil_text": "சார்! யாராவது இருக்கீங்களா? நள்ளிரவு 3 மணிக்கு மிக்ஸி ஜார் தன்னால சுத்துது சார்!",
-          "tanglish_text": "Sir! Yaaraavadhu irukeengala?\nMidnight 3 AM mixie auto on aagudhu!",
-          "voice_ta": "ta-IN-PallaviNeural",
-          "voice_en": "en-US-GuyNeural",
-          "sfx": "whoosh.wav"
-        },
-        {
           "speaker": "urulai_cop",
-          "badge": "INSPECTOR URULAI",
-          "clip_src": "urulai_walk_in.mp4",
-          "tamil_text": "டேய் பயப்படாதடா! பேய் பிசாசு எல்லாம் கட்டுக்கதை! கரண்ட் லீக்கா இருக்கும்!",
-          "tanglish_text": "Dei bayapadadha da! Ghost-ellam myth!\nCurrent leak-a irukkum!",
+          "badge": "HONORABLE JUDGE URULAI",
+          "clip_src": "urulai_mustache.mp4",
+          "tamil_text": "சைலன்ஸ்! ஆர்டர் இன் தி கோர்ட்! தக்காளி மேல வைக்கப்பட்ட குற்றச்சாட்டை வாசியுங்கள்!",
+          "tanglish_text": "Silence! Order in the Court!\nRead the charges against Tomato!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
           "sfx": "dramatic_hit.wav"
         },
         {
-          "speaker": "crowd_shock",
-          "badge": "VEGGIE GANG",
-          "clip_src": "crowd_shock.mp4",
-          "tamil_text": "சார் கரண்ட் இல்ல சார்! மெயின் சுவிட்சே ஆஃப்ல இருக்கு! அப்புறம் எப்படி ஓடுது?!",
-          "tanglish_text": "Sir power illa sir! Main switch off!\nAppuram eppadi mixie running?!",
-          "voice_ta": "ta-IN-PallaviNeural",
-          "voice_en": "en-US-JennyNeural",
+          "speaker": "paavakkai",
+          "badge": "PUBLIC PROSECUTOR",
+          "clip_src": "paavakkai_cry.mp4",
+          "tamil_text": "யுவர் ஆனர்! இந்த தக்காளி சாம்பார், ரசம், பிரியாணினு எல்லாத்துலயும் அநாவசியமா நுழைஞ்சு ஆதிக்கம் பண்றான்!",
+          "tanglish_text": "Your Honor! Ivan Sambar, Rasam, Biryani-nu\nellaathulayum over dominance panraan!",
+          "voice_ta": "ta-IN-ValluvarNeural",
+          "voice_en": "en-US-GuyNeural",
           "sfx": "impact.wav"
         },
         {
+          "speaker": "thakkali",
+          "badge": "DEFENSE THAKKALI",
+          "clip_src": "thakkali_talk_1.mp4",
+          "tamil_text": "அப்ஜெக்ஷன் யுவர் ஆனர்! நான் இல்லன்னா ரசத்துக்கு சுவை யார் தருவா?! இது என் திறமை சார்!",
+          "tanglish_text": "Objection Your Honor! Naan illana\nrasathukku taste yaaru tharuva?!",
+          "voice_ta": "ta-IN-PallaviNeural",
+          "voice_en": "en-US-GuyNeural",
+          "sfx": "punch_thud.wav"
+        },
+        {
           "speaker": "urulai_cop",
-          "badge": "INSPECTOR URULAI",
-          "clip_src": "urulai_potato_bowl.mp4",
-          "tamil_text": "என்னது?! கரண்ட் இல்லாம சுத்துதா?! இந்த மேஜைல இருக்குற வேகவச்ச உருளை கூட ஆட ஆரம்பிக்குதேடா!",
-          "tanglish_text": "Ennadhu?! Current illama running-a?!\nIndha boiled potato kooda aadhudhe da!",
+          "badge": "HONORABLE JUDGE URULAI",
+          "clip_src": "urulai_point_finger.mp4",
+          "tamil_text": "அப்ஜெக்ஷன் ஓவர்ரூல்ட்! தக்காளி வாதம் எடுபடாது! சாட்சி கூண்டுக்கு தேங்காய் அக்காவை அழைக்கிறேன்!",
+          "tanglish_text": "Objection Overruled! Witness box-ku\nThengai Akka-vai azhaikkirom!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
           "sfx": "dramatic_hit.wav"
@@ -59,90 +59,100 @@
     },
     {
       "part_num": 2,
-      "title": "Part 2: The Green Floating Mist",
+      "title": "Part 2: The Hostile Witness",
       "cliffhanger": {
-        "question_en": "What emerged from behind the chimney?",
-        "question_ta": "புகைபோக்கிக்கு பின்னால் இருந்து வந்தது என்ன?",
+        "question_en": "What shocking evidence will turn the trial?",
+        "question_ta": "வழக்கை மாற்றப்போகும் அந்த அதிர்ச்சி ஆதாரம் என்ன?",
         "cta": "Watch Final Part 3 Tomorrow! 🔔"
       },
       "dialogues": [
         {
+          "speaker": "thengai",
+          "badge": "WITNESS THENGAI",
+          "clip_src": "thengai_shy.mp4",
+          "tamil_text": "யுவர் ஆனர்! தக்காளி தம்பி இல்லன்னா இந்த சமையலறையே இயங்காதுங்க, ரொம்ப நல்ல பையன்!",
+          "tanglish_text": "Your Honor! Thakkali illana\nindha kitchen-e nadakkaadhu, very good boy!",
+          "voice_ta": "ta-IN-PallaviNeural",
+          "voice_en": "en-US-JennyNeural",
+          "sfx": "boing.wav"
+        },
+        {
           "speaker": "paavakkai",
-          "badge": "SHIVERING BITTER GOURD",
+          "badge": "PUBLIC PROSECUTOR",
           "clip_src": "paavakkai_cry.mp4",
-          "tamil_text": "சார்! சிம்னிக்கு மேல ஒரு பச்சை கலர் புகை மெதக்குது சார்! காப்பாத்துங்க!",
-          "tanglish_text": "Sir! Chimney mela green color smoke\nfloating sir! Kaappaathunga!",
+          "tamil_text": "பொய் சொல்றாங்க! இவங்களுக்குள்ள ரகசிய கூட்டணி இருக்கு! சாட்சியை குறுக்கு விசாரணை செய்ய அனுமதிக்கணும்!",
+          "tanglish_text": "Poi solraanga! Secret alliance irukku!\nCross examine panna allow pannunga!",
           "voice_ta": "ta-IN-ValluvarNeural",
+          "voice_en": "en-US-GuyNeural",
+          "sfx": "impact.wav"
+        },
+        {
+          "speaker": "thakkali",
+          "badge": "DEFENSE THAKKALI",
+          "clip_src": "thakkali_ooh.mp4",
+          "tamil_text": "யுவர் ஆனர்! இதோ இந்த ரகசிய ரெசிபி டைரியை பாருங்க! உருளைக்கிழங்கு தான் எல்லாத்துலயும் கூட்டு சேருது!",
+          "tanglish_text": "Your Honor! Indha recipe diary paarunga!\nUrulai dhaan ellaathulayum partner!",
+          "voice_ta": "ta-IN-PallaviNeural",
           "voice_en": "en-US-GuyNeural",
           "sfx": "whoosh.wav"
         },
         {
           "speaker": "urulai_cop",
-          "badge": "INSPECTOR URULAI",
-          "clip_src": "urulai_point_finger.mp4",
-          "tamil_text": "யார்ரா அது புகைபோக்கிக்கு பின்னாடி ஒளிஞ்சிருக்கிறது?! முன்னாடி வாடா தைரியம் இருந்தா!",
-          "tanglish_text": "Yaar-ra adhu chimney pinnaadi?\nMunnadi vaa da dhairiyam irundha!",
-          "voice_ta": "ta-IN-ValluvarNeural",
-          "voice_en": "en-US-ChristopherNeural",
-          "sfx": "punch_thud.wav"
-        },
-        {
-          "speaker": "thakkali",
-          "badge": "TERRIFIED THAKKALI",
-          "clip_src": "thakkali_listen.mp4",
-          "tamil_text": "சார் அது பேச ஆரம்பிக்குது சார்! 'சட்னி... சட்னி...' ன்னு முனங்குது சார்!",
-          "tanglish_text": "Sir adhu pesudhu sir!\n'Chutney... Chutney...' nu soludhu sir!",
-          "voice_ta": "ta-IN-PallaviNeural",
-          "voice_en": "en-US-GuyNeural",
-          "sfx": "dramatic_hit.wav"
-        },
-        {
-          "speaker": "urulai_cop",
-          "badge": "INSPECTOR URULAI",
+          "badge": "HONORABLE JUDGE URULAI",
           "clip_src": "urulai_angry_stop.mp4",
-          "tamil_text": "டேய் பேயா இருந்தாலும் சரி, பிசாசா இருந்தாலும் சரி! சமையலறை ரூல்ஸ மீறினா ஜெயில் தான்டா!",
-          "tanglish_text": "Ghost-a irundhalum kitchen rules\nmeerina jail dhaan da!",
+          "tamil_text": "என்னது?! நீதிபதியையே குற்றம் சாட்டுறியா?! தீர்ப்பு நாளைக்கு காலைல 10 மணிக்கு வழங்கப்படும்!",
+          "tanglish_text": "Ennadhu?! Judge-aiye accuse panriya?!\nVerdict naalaikku 10 AM-ku varum!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
-          "sfx": "police_whistle.wav"
+          "sfx": "dramatic_hit.wav"
         }
       ]
     },
     {
       "part_num": 3,
-      "title": "Part 3: The Secret Behind the Mist",
+      "title": "Part 3: The Historic Verdict",
       "cliffhanger": {
-        "question_en": "Mystery solved! Which genre do you want next?",
-        "question_ta": "மர்மம் விலகியது! அடுத்த எபிசோடில் எந்த கதை வேண்டும்?",
-        "cta": "Comment Below & Subscribe! 🔔"
+        "question_en": "Verdict Delivered! Follow for Next Saga!",
+        "question_ta": "தீர்ப்பு வழங்கப்பட்டது! அடுத்த புதிய கதைக்கு Follow பண்ணுங்க!",
+        "cta": "Subscribe for Tomorrow's Brand New Series! 🔔"
       },
       "dialogues": [
         {
-          "speaker": "vengayam",
-          "badge": "SNEAKY VENGAYAM",
-          "clip_src": "vengayam_talk.mp4",
-          "tamil_text": "ஹா ஹா ஹா! பேய் இல்ல சார்! நான்தான் புதினா இலையை சிம்னி ஃபேன்ல மாட்ட வச்சேன்!",
-          "tanglish_text": "Ha ha ha! Ghost illa sir!\nNaan dhaan mint leaves fan-la maatinein!",
+          "speaker": "urulai_cop",
+          "badge": "HONORABLE JUDGE URULAI",
+          "clip_src": "urulai_talk_1.mp4",
+          "tamil_text": "அனைத்து ஆதாரங்களையும் ஆராய்ந்ததில்... தக்காளி தம்பி சமையலறையின் இன்றியமையாத ராஜா என தீர்ப்பளிக்கிறேன்!",
+          "tanglish_text": "Ella evidence paarthadhil... Thakkali thambi\nkitchen-in King-nu theerppalikkirom!",
           "voice_ta": "ta-IN-ValluvarNeural",
-          "voice_en": "en-US-GuyNeural",
-          "sfx": "boing.wav"
+          "voice_en": "en-US-ChristopherNeural",
+          "sfx": "dramatic_hit.wav"
         },
         {
           "speaker": "thakkali",
-          "badge": "THALUKU THAKKALI",
+          "badge": "VICTORIOUS THAKKALI",
           "clip_src": "thakkali_laugh.mp4",
-          "tamil_text": "அடப்பாவி வெங்காயம்! எங்களை சாகடிச்சிட்டடா பயத்துல! உன்னை அறுத்து சாம்பார்ல போடணும்!",
-          "tanglish_text": "Adappaavi Vengayam! Bayathula\nsaavadichitta! Unna sambar-la podanum!",
+          "tamil_text": "வெற்றி வெற்றி! நீதி வென்றது! தக்காளி தம்பிக்கு இனி சமையலறை முழுக்க ராஜ மரியாதை!",
+          "tanglish_text": "Vetri vetri! Justice wins!\nThakkali thambi-ku Royal Respect!",
           "voice_ta": "ta-IN-PallaviNeural",
           "voice_en": "en-US-GuyNeural",
           "sfx": "funny_whistle.wav"
         },
         {
+          "speaker": "split_laugh",
+          "badge": "COURT AUDIENCE",
+          "clip_src": "split_laugh.mp4",
+          "tamil_text": "ஹா ஹா ஹா! பாகற்காயோட சதி திட்டம் சொதப்பிடுச்சு!",
+          "tanglish_text": "Ha ha ha! Paavakkai plan\ncompletely failed!",
+          "voice_ta": "ta-IN-PallaviNeural",
+          "voice_en": "en-US-JennyNeural",
+          "sfx": "boing.wav"
+        },
+        {
           "speaker": "urulai_cop",
-          "badge": "INSPECTOR URULAI",
+          "badge": "HONORABLE JUDGE URULAI",
           "clip_src": "urulai_talk_3.mp4",
-          "tamil_text": "டேய் வெங்காயம்! ஊரையே பயமுறுத்திய குற்றத்துக்காக உனக்கு ஆயுள் தண்டனை! நடடா ஜெயிலுக்கு!",
-          "tanglish_text": "Dei Vengayam! Kitchen-ai bayamuruthina\nunerukku jail dhaan da! Nadada!",
+          "tamil_text": "நீதிமன்றம் கலைகிறது! அடுத்த வழக்கில் மற்றொரு சாகசம் ஆரம்பமாகும்!",
+          "tanglish_text": "Court adjourned! Next case-la\npudhu episode start aagum!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
           "sfx": "dramatic_hit.wav"
@@ -151,16 +161,17 @@
     }
   ],
   "tags": [
-    "horrortamil",
-    "hauntedkitchen",
-    "paranormal",
+    "courtroomdrama",
+    "tamilcourt",
+    "objection",
     "shorts",
     "reels",
-    "ghoststory"
+    "lawyer"
   ],
   "series_history": [
     "auto_speed_trap",
     "crime_pantry_heist",
-    "horror_haunted_pantry"
+    "horror_haunted_pantry",
+    "courtroom_sambar_trial"
   ]
 }
