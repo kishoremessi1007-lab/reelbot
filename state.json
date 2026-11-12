@@ -1,66 +1,56 @@
 {
-  "series_id": "crime_pantry_heist",
-  "genre": "CRIME THRILLER",
-  "genre_badge": "🕵️ CRIME THRILLER",
-  "series_title": "The Midnight Pantry Heist",
+  "series_id": "horror_haunted_pantry",
+  "genre": "HORROR MYSTERY",
+  "genre_badge": "👻 HORROR MYSTERY",
+  "series_title": "The Haunted Kitchen at 3 AM",
   "bgm": "comedy_bouncy_loop.wav",
-  "next_part": 4,
+  "next_part": 2,
   "parts": [
     {
       "part_num": 1,
-      "title": "Part 1: The Broken Lock at 2 AM",
+      "title": "Part 1: The Whispers in the Dark",
       "cliffhanger": {
-        "question_en": "Who broke the safe at 2:00 AM?",
-        "question_ta": "நள்ளிரவு 2 மணிக்கு லாக்கரை உடைத்தது யார்?",
-        "cta": "Follow for Part 2 Tomorrow! 🔔"
+        "question_en": "What made the mixer turn on at 3 AM?",
+        "question_ta": "நள்ளிரவு 3 மணிக்கு மிக்ஸியை ஆன் செய்தது யார்?",
+        "cta": "Follow for Spine-Chilling Part 2! 🔔"
       },
       "dialogues": [
         {
+          "speaker": "thakkali",
+          "badge": "TERRIFIED THAKKALI",
+          "clip_src": "thakkali_ooh.mp4",
+          "tamil_text": "சார்! யாராவது இருக்கீங்களா? நள்ளிரவு 3 மணிக்கு மிக்ஸி ஜார் தன்னால சுத்துது சார்!",
+          "tanglish_text": "Sir! Yaaraavadhu irukeengala?\nMidnight 3 AM mixie auto on aagudhu!",
+          "voice_ta": "ta-IN-PallaviNeural",
+          "voice_en": "en-US-GuyNeural",
+          "sfx": "whoosh.wav"
+        },
+        {
           "speaker": "urulai_cop",
-          "badge": "DETECTIVE URULAI",
+          "badge": "INSPECTOR URULAI",
           "clip_src": "urulai_walk_in.mp4",
-          "tamil_text": "அனைவரும் அசையாமல் நில்லுங்கள்! கிச்சன் லாக்கர்ல இருந்த குங்குமப்பூ டப்பா காணாம போயிருக்கு!",
-          "tanglish_text": "Anaivarum asaiyaamal nillungal!\nKitchen safe kungumapoo box missing!",
+          "tamil_text": "டேய் பயப்படாதடா! பேய் பிசாசு எல்லாம் கட்டுக்கதை! கரண்ட் லீக்கா இருக்கும்!",
+          "tanglish_text": "Dei bayapadadha da! Ghost-ellam myth!\nCurrent leak-a irukkum!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
           "sfx": "dramatic_hit.wav"
         },
         {
-          "speaker": "thakkali",
-          "badge": "SUSPECT THAKKALI",
-          "clip_src": "thakkali_ooh.mp4",
-          "tamil_text": "சார்! நான் நேத்து ராத்திரி முழுக்க ஃப்ரிட்ஜ் டோர் பின்னாடி தூங்கிட்டு தான் சார் இருந்தேன்!",
-          "tanglish_text": "Sir! Naan night fulla fridge door\npinnaadi dhaan thoongittu irundhen sir!",
+          "speaker": "crowd_shock",
+          "badge": "VEGGIE GANG",
+          "clip_src": "crowd_shock.mp4",
+          "tamil_text": "சார் கரண்ட் இல்ல சார்! மெயின் சுவிட்சே ஆஃப்ல இருக்கு! அப்புறம் எப்படி ஓடுது?!",
+          "tanglish_text": "Sir power illa sir! Main switch off!\nAppuram eppadi mixie running?!",
           "voice_ta": "ta-IN-PallaviNeural",
-          "voice_en": "en-US-GuyNeural",
+          "voice_en": "en-US-JennyNeural",
           "sfx": "impact.wav"
         },
         {
           "speaker": "urulai_cop",
-          "badge": "DETECTIVE URULAI",
-          "clip_src": "urulai_point_finger.mp4",
-          "tamil_text": "தூங்குனியா? அப்போ அந்த லாக்கர் பக்கத்துல கிடந்த சிவப்பு தக்காளி விதைகளுக்கு என்ன பதில்?!",
-          "tanglish_text": "Thoonguniya? Appo locker pakkathula\nkidantha red tomato seeds-ku enna badhil?!",
-          "voice_ta": "ta-IN-ValluvarNeural",
-          "voice_en": "en-US-ChristopherNeural",
-          "sfx": "punch_thud.wav"
-        },
-        {
-          "speaker": "thengai",
-          "badge": "WITNESS THENGAI",
-          "clip_src": "thengai_shy.mp4",
-          "tamil_text": "இன்ஸ்பெக்டர் சார்! நான் ஒன்னு பார்த்தேன்... லாக்கர் பக்கம் ஒரு பெரிய நிழல் நடந்து போச்சு!",
-          "tanglish_text": "Inspector sir! Naan onnu paarthen...\nLocker pakkam oru periya shadow pochu!",
-          "voice_ta": "ta-IN-PallaviNeural",
-          "voice_en": "en-US-JennyNeural",
-          "sfx": "whoosh.wav"
-        },
-        {
-          "speaker": "urulai_cop",
-          "badge": "DETECTIVE URULAI",
-          "clip_src": "urulai_talk_3.mp4",
-          "tamil_text": "பெரிய நிழலா?! இந்த கிச்சன்ல ஒரு பெரிய சதி நடக்குது! கைரேகை டெஸ்ட் எடுக்கிறேன்டா!",
-          "tanglish_text": "Periya shadow-va?! Indha kitchen-la\noru periya sadhi! Fingerprint edukkurom!",
+          "badge": "INSPECTOR URULAI",
+          "clip_src": "urulai_potato_bowl.mp4",
+          "tamil_text": "என்னது?! கரண்ட் இல்லாம சுத்துதா?! இந்த மேஜைல இருக்குற வேகவச்ச உருளை கூட ஆட ஆரம்பிக்குதேடா!",
+          "tanglish_text": "Ennadhu?! Current illama running-a?!\nIndha boiled potato kooda aadhudhe da!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
           "sfx": "dramatic_hit.wav"
@@ -69,110 +59,90 @@
     },
     {
       "part_num": 2,
-      "title": "Part 2: The Red Footprint Clue",
+      "title": "Part 2: The Green Floating Mist",
       "cliffhanger": {
-        "question_en": "Whose footprint was on the flour bag?",
-        "question_ta": "மைதா மாவு மூட்டை மேல இருந்தது யாருடைய காலடி?",
-        "cta": "Watch Climax Part 3 Tomorrow! 🔔"
+        "question_en": "What emerged from behind the chimney?",
+        "question_ta": "புகைபோக்கிக்கு பின்னால் இருந்து வந்தது என்ன?",
+        "cta": "Watch Final Part 3 Tomorrow! 🔔"
       },
       "dialogues": [
         {
           "speaker": "paavakkai",
-          "badge": "PAAVAKKAI",
+          "badge": "SHIVERING BITTER GOURD",
           "clip_src": "paavakkai_cry.mp4",
-          "tamil_text": "சார்! மைதா மாவு மூட்டை மேல சின்னதா ஒரு விரல் தடம் இருக்கு சார்! யாரோ ஓடி போயிருக்காங்க!",
-          "tanglish_text": "Sir! Maida mookai mela oru footprint\nirukku sir! Yaaro odi poirukaanga!",
+          "tamil_text": "சார்! சிம்னிக்கு மேல ஒரு பச்சை கலர் புகை மெதக்குது சார்! காப்பாத்துங்க!",
+          "tanglish_text": "Sir! Chimney mela green color smoke\nfloating sir! Kaappaathunga!",
           "voice_ta": "ta-IN-ValluvarNeural",
-          "voice_en": "en-US-GuyNeural",
-          "sfx": "impact.wav"
-        },
-        {
-          "speaker": "urulai_cop",
-          "badge": "DETECTIVE URULAI",
-          "clip_src": "urulai_mustache.mp4",
-          "tamil_text": "மீசையை முறுக்குறேன்... குற்றவாளி ரொம்ப பக்கத்துல தான் இருக்கான்! வெங்காயம்! முன்னாடி வா!",
-          "tanglish_text": "Meesaiyai murukkuren... Criminal romba\npakkathula dhaan irukaan! Vengayam come here!",
-          "voice_ta": "ta-IN-ValluvarNeural",
-          "voice_en": "en-US-ChristopherNeural",
-          "sfx": "police_whistle.wav"
-        },
-        {
-          "speaker": "vengayam",
-          "badge": "VENGAYAM",
-          "clip_src": "vengayam_talk.mp4",
-          "tamil_text": "சார்! என் கண்ணுல வர்றது குற்ற உணர்ச்சி இல்ல சார், இயற்கை குணம்! நான் குங்குமப்பூவை தொடவே இல்ல!",
-          "tanglish_text": "Sir! En kanneer thappu illa sir!\nNaan saffron thodave illa sir!",
-          "voice_ta": "ta-IN-ValluvarNeural",
-          "voice_en": "en-US-GuyNeural",
-          "sfx": "punch_thud.wav"
-        },
-        {
-          "speaker": "thakkali",
-          "badge": "THALUKU THAKKALI",
-          "clip_src": "thakkali_talk_1.mp4",
-          "tamil_text": "சார் எனக்கு ஒரு சந்தேகம்! அந்த சிசிடிவி கேமரா பக்கத்துல நின்னது யாருன்னு பாருங்க!",
-          "tanglish_text": "Sir enakku oru doubt! CCTV camera\npakkathula ninnadhu yaaru-nu paarunga!",
-          "voice_ta": "ta-IN-PallaviNeural",
           "voice_en": "en-US-GuyNeural",
           "sfx": "whoosh.wav"
         },
         {
           "speaker": "urulai_cop",
-          "badge": "DETECTIVE URULAI",
-          "clip_src": "urulai_angry_stop.mp4",
-          "tamil_text": "சிசிடிவி ஃபுட்டேஜ் வந்துருச்சு! அடுத்த 10 நிமிஷத்துல திருடன் யாருன்னு வெளிச்சத்துக்கு வரும்!",
-          "tanglish_text": "CCTV footage vandhuruchu!\nNext 10 mins-la thief maatuvaan da!",
+          "badge": "INSPECTOR URULAI",
+          "clip_src": "urulai_point_finger.mp4",
+          "tamil_text": "யார்ரா அது புகைபோக்கிக்கு பின்னாடி ஒளிஞ்சிருக்கிறது?! முன்னாடி வாடா தைரியம் இருந்தா!",
+          "tanglish_text": "Yaar-ra adhu chimney pinnaadi?\nMunnadi vaa da dhairiyam irundha!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
+          "sfx": "punch_thud.wav"
+        },
+        {
+          "speaker": "thakkali",
+          "badge": "TERRIFIED THAKKALI",
+          "clip_src": "thakkali_listen.mp4",
+          "tamil_text": "சார் அது பேச ஆரம்பிக்குது சார்! 'சட்னி... சட்னி...' ன்னு முனங்குது சார்!",
+          "tanglish_text": "Sir adhu pesudhu sir!\n'Chutney... Chutney...' nu soludhu sir!",
+          "voice_ta": "ta-IN-PallaviNeural",
+          "voice_en": "en-US-GuyNeural",
           "sfx": "dramatic_hit.wav"
+        },
+        {
+          "speaker": "urulai_cop",
+          "badge": "INSPECTOR URULAI",
+          "clip_src": "urulai_angry_stop.mp4",
+          "tamil_text": "டேய் பேயா இருந்தாலும் சரி, பிசாசா இருந்தாலும் சரி! சமையலறை ரூல்ஸ மீறினா ஜெயில் தான்டா!",
+          "tanglish_text": "Ghost-a irundhalum kitchen rules\nmeerina jail dhaan da!",
+          "voice_ta": "ta-IN-ValluvarNeural",
+          "voice_en": "en-US-ChristopherNeural",
+          "sfx": "police_whistle.wav"
         }
       ]
     },
     {
       "part_num": 3,
-      "title": "Part 3: The CCTV Revelation",
+      "title": "Part 3: The Secret Behind the Mist",
       "cliffhanger": {
-        "question_en": "Case Closed! Who will be the next suspect?",
-        "question_ta": "வழக்கு முடிந்தது! அடுத்த வழக்கில் யார் சிக்குவார்கள்?",
-        "cta": "Follow for Brand New Mystery Saga! 🔔"
+        "question_en": "Mystery solved! Which genre do you want next?",
+        "question_ta": "மர்மம் விலகியது! அடுத்த எபிசோடில் எந்த கதை வேண்டும்?",
+        "cta": "Comment Below & Subscribe! 🔔"
       },
       "dialogues": [
         {
-          "speaker": "urulai_cop",
-          "badge": "DETECTIVE URULAI",
-          "clip_src": "urulai_talk_1.mp4",
-          "tamil_text": "வீடியோவ பாருங்கடா! குங்குமப்பூவை எடுத்தது இந்த மாங்காய் அண்ணி தான்!",
-          "tanglish_text": "Video paarunga da! Kungumapoo\neduthadhu indha Maangai dhaan!",
+          "speaker": "vengayam",
+          "badge": "SNEAKY VENGAYAM",
+          "clip_src": "vengayam_talk.mp4",
+          "tamil_text": "ஹா ஹா ஹா! பேய் இல்ல சார்! நான்தான் புதினா இலையை சிம்னி ஃபேன்ல மாட்ட வச்சேன்!",
+          "tanglish_text": "Ha ha ha! Ghost illa sir!\nNaan dhaan mint leaves fan-la maatinein!",
           "voice_ta": "ta-IN-ValluvarNeural",
-          "voice_en": "en-US-ChristopherNeural",
-          "sfx": "dramatic_hit.wav"
-        },
-        {
-          "speaker": "maangai",
-          "badge": "MAANGAI",
-          "clip_src": "maangai_smile.mp4",
-          "tamil_text": "அய்யோ சார்! மாங்காய் பச்சடிக்கு கொஞ்சம் கலர் பத்தலன்னு தான் ஒரே ஒரு சிட்டிகை எடுத்தேன் சார்!",
-          "tanglish_text": "Aiyo sir! Pachadi-ku color pathala-nu\nore oru pinch dhaan eduthen sir!",
-          "voice_ta": "ta-IN-PallaviNeural",
-          "voice_en": "en-US-JennyNeural",
+          "voice_en": "en-US-GuyNeural",
           "sfx": "boing.wav"
         },
         {
           "speaker": "thakkali",
           "badge": "THALUKU THAKKALI",
           "clip_src": "thakkali_laugh.mp4",
-          "tamil_text": "அப்பாடா! அப்போ என் மேல தப்பு இல்ல! தக்காளி தம்பி நேர்மையானவன்னு ஊருக்கே தெரிஞ்சிருச்சு!",
-          "tanglish_text": "Appada! En mela thappu illa!\nThakkali honest-nu therinjuruchu!",
+          "tamil_text": "அடப்பாவி வெங்காயம்! எங்களை சாகடிச்சிட்டடா பயத்துல! உன்னை அறுத்து சாம்பார்ல போடணும்!",
+          "tanglish_text": "Adappaavi Vengayam! Bayathula\nsaavadichitta! Unna sambar-la podanum!",
           "voice_ta": "ta-IN-PallaviNeural",
           "voice_en": "en-US-GuyNeural",
           "sfx": "funny_whistle.wav"
         },
         {
           "speaker": "urulai_cop",
-          "badge": "DETECTIVE URULAI",
+          "badge": "INSPECTOR URULAI",
           "clip_src": "urulai_talk_3.mp4",
-          "tamil_text": "டேய் தக்காளி ரொம்ப குதிக்காத! நாளைக்கு உனக்கு ஒரு புது கேஸ் காத்துட்டு இருக்குடா!",
-          "tanglish_text": "Dei Thakkali kudhikaadha!\nNaalaikku unakku pudhu case irukku da!",
+          "tamil_text": "டேய் வெங்காயம்! ஊரையே பயமுறுத்திய குற்றத்துக்காக உனக்கு ஆயுள் தண்டனை! நடடா ஜெயிலுக்கு!",
+          "tanglish_text": "Dei Vengayam! Kitchen-ai bayamuruthina\nunerukku jail dhaan da! Nadada!",
           "voice_ta": "ta-IN-ValluvarNeural",
           "voice_en": "en-US-ChristopherNeural",
           "sfx": "dramatic_hit.wav"
@@ -181,12 +151,12 @@
     }
   ],
   "tags": [
-    "crimethriller",
-    "detective",
-    "tamilmystery",
+    "horrortamil",
+    "hauntedkitchen",
+    "paranormal",
     "shorts",
     "reels",
-    "suspense"
+    "ghoststory"
   ],
   "series_history": [
     "auto_speed_trap",
@@ -194,6 +164,7 @@
     "horror_haunted_pantry",
     "courtroom_sambar_trial",
     "comedy_auto_speed_trap",
-    "crime_pantry_heist"
+    "crime_pantry_heist",
+    "horror_haunted_pantry"
   ]
 }
