@@ -8,6 +8,7 @@ import logging
 import math
 import os
 import random
+import re
 import time
 import urllib.parse
 from pathlib import Path
@@ -332,7 +333,8 @@ class ArtEngine:
             f"https://image.pollinations.ai/prompt/{encoded}?width={gen_w}&height={gen_h}&seed={seed}&model=flux&nologo=true",
         ]
         headers = {"User-Agent": "AIComicFactory/1.0"}
-        for idx, url in enumerate(urls):
+        for attempt in range(4):
+            url = urls[attempt % len(urls)]
             try:
                 with httpx.Client(timeout=90.0, follow_redirects=True, headers=headers) as client:
                     resp = client.get(url)
@@ -341,12 +343,17 @@ class ArtEngine:
                             rgb = im.convert("RGB").resize((width, height), Image.Resampling.LANCZOS)
                             out_path.parent.mkdir(parents=True, exist_ok=True)
                             rgb.save(out_path, format="PNG")
-                        time.sleep(1.5)
                         return True
-                    logger.warning("Pollinations HTTP %d (try %d): %s", resp.status_code, idx + 1, resp.text[:200])
+                    if resp.status_code in (402, 429):
+                        match = re.search(r"Retry after\s+(\d+)s", resp.text, re.IGNORECASE)
+                        wait_sec = int(match.group(1)) + 3 if match else 47
+                        logger.info("Pollinations rate limit (%d). Waiting %ds before retry...", resp.status_code, wait_sec)
+                        time.sleep(wait_sec)
+                        continue
+                    logger.warning("Pollinations HTTP %d (try %d): %s", resp.status_code, attempt + 1, resp.text[:200])
             except Exception as exc:
-                logger.warning("Pollinations generation failed (try %d): %s", idx + 1, exc)
-            time.sleep(2.0)
+                logger.warning("Pollinations generation failed (try %d): %s", attempt + 1, exc)
+            time.sleep(3.0)
         return False
 
     @staticmethod
