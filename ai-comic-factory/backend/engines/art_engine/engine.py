@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import hashlib
 import io
 import json
@@ -7,6 +8,7 @@ import logging
 import math
 import os
 import random
+import time
 import urllib.parse
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -69,15 +71,25 @@ class ArtEngine:
                     )
 
                 if not success and settings.enable_pollinations_fallback and "PYTEST_CURRENT_TEST" not in os.environ:
-                    success = self._generate_pollinations_image(
-                        prompt=positive_prompt,
-                        seed=int(char["seed"]),
-                        width=settings.comfyui_width,
-                        height=settings.comfyui_height,
-                        out_path=out_path,
-                    )
-                    if success:
-                        backend_used = "pollinations_flux"
+                    if settings.gemini_api_key:
+                        success = self._generate_gemini_image(
+                            prompt=positive_prompt,
+                            width=settings.comfyui_width,
+                            height=settings.comfyui_height,
+                            out_path=out_path,
+                        )
+                        if success:
+                            backend_used = "gemini_image"
+                    if not success:
+                        success = self._generate_pollinations_image(
+                            prompt=positive_prompt,
+                            seed=int(char["seed"]),
+                            width=settings.comfyui_width,
+                            height=settings.comfyui_height,
+                            out_path=out_path,
+                        )
+                        if success:
+                            backend_used = "pollinations_flux"
 
                 if not success:
                     if not settings.comfyui_enable_fallback_renderer:
@@ -196,15 +208,25 @@ class ArtEngine:
                     )
 
                 if not success and settings.enable_pollinations_fallback and "PYTEST_CURRENT_TEST" not in os.environ:
-                    success = self._generate_pollinations_image(
-                        prompt=positive_prompt,
-                        seed=seed,
-                        width=settings.comfyui_width,
-                        height=settings.comfyui_height,
-                        out_path=out_path,
-                    )
-                    if success:
-                        backend_used = "pollinations_flux"
+                    if settings.gemini_api_key:
+                        success = self._generate_gemini_image(
+                            prompt=positive_prompt,
+                            width=settings.comfyui_width,
+                            height=settings.comfyui_height,
+                            out_path=out_path,
+                        )
+                        if success:
+                            backend_used = "gemini_image"
+                    if not success:
+                        success = self._generate_pollinations_image(
+                            prompt=positive_prompt,
+                            seed=seed,
+                            width=settings.comfyui_width,
+                            height=settings.comfyui_height,
+                            out_path=out_path,
+                        )
+                        if success:
+                            backend_used = "pollinations_flux"
 
                 if not success:
                     if not settings.comfyui_enable_fallback_renderer:
@@ -257,6 +279,44 @@ class ArtEngine:
         return generated
 
     @staticmethod
+    def _generate_gemini_image(
+        prompt: str,
+        width: int,
+        height: int,
+        out_path: Path,
+    ) -> bool:
+        """Generate AI comic artwork via Gemini image generation models when ComfyUI is offline."""
+        if not settings.gemini_api_key:
+            return False
+        models = ["gemini-2.5-flash-image", "gemini-2.0-flash-exp-image-generation"]
+        payload = {
+            "contents": [{"parts": [{"text": f"Generate a vertical 4:5 comic book illustration. {prompt}"}]}],
+            "generationConfig": {"responseModalities": ["TEXT", "IMAGE"]},
+        }
+        for model_name in models:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent"
+            try:
+                with httpx.Client(timeout=90.0) as client:
+                    resp = client.post(url, params={"key": settings.gemini_api_key}, json=payload)
+                    if resp.status_code >= 400:
+                        logger.warning("Gemini image %s HTTP %d: %s", model_name, resp.status_code, resp.text[:250])
+                        continue
+                    data = resp.json()
+                    parts = data.get("candidates", [{}])[0].get("content", {}).get("parts", [])
+                    for part in parts:
+                        inline = part.get("inlineData") or part.get("inline_data")
+                        if inline and inline.get("data"):
+                            raw_bytes = base64.b64decode(inline["data"])
+                            with Image.open(io.BytesIO(raw_bytes)) as im:
+                                rgb = im.convert("RGB").resize((width, height), Image.Resampling.LANCZOS)
+                                out_path.parent.mkdir(parents=True, exist_ok=True)
+                                rgb.save(out_path, format="PNG")
+                            return True
+            except Exception as exc:
+                logger.warning("Gemini image %s failed: %s", model_name, exc)
+        return False
+
+    @staticmethod
     def _generate_pollinations_image(
         prompt: str,
         seed: int,
@@ -264,25 +324,29 @@ class ArtEngine:
         height: int,
         out_path: Path,
     ) -> bool:
-        """Generate real AI comic artwork via free Pollinations.ai Flux endpoint when ComfyUI is offline."""
-        encoded = urllib.parse.quote(prompt[:900], safe="")
-        url = (
-            f"https://image.pollinations.ai/prompt/{encoded}"
-            f"?width={width}&height={height}&seed={seed}&model=flux&nologo=true"
-        )
-        for attempt in range(2):
+        """Generate real AI comic artwork via free Pollinations.ai endpoint when ComfyUI is offline."""
+        encoded = urllib.parse.quote(prompt[:650], safe="")
+        gen_w, gen_h = 768, 960
+        urls = [
+            f"https://image.pollinations.ai/prompt/{encoded}?width={gen_w}&height={gen_h}&seed={seed}&nologo=true",
+            f"https://image.pollinations.ai/prompt/{encoded}?width={gen_w}&height={gen_h}&seed={seed}&model=flux&nologo=true",
+        ]
+        headers = {"User-Agent": "AIComicFactory/1.0"}
+        for idx, url in enumerate(urls):
             try:
-                with httpx.Client(timeout=60.0, follow_redirects=True) as client:
+                with httpx.Client(timeout=90.0, follow_redirects=True, headers=headers) as client:
                     resp = client.get(url)
                     if resp.status_code == 200 and len(resp.content) > 5000:
                         with Image.open(io.BytesIO(resp.content)) as im:
                             rgb = im.convert("RGB").resize((width, height), Image.Resampling.LANCZOS)
                             out_path.parent.mkdir(parents=True, exist_ok=True)
                             rgb.save(out_path, format="PNG")
+                        time.sleep(1.5)
                         return True
-                    logger.warning("Pollinations HTTP %d (attempt %d)", resp.status_code, attempt + 1)
+                    logger.warning("Pollinations HTTP %d (try %d): %s", resp.status_code, idx + 1, resp.text[:200])
             except Exception as exc:
-                logger.warning("Pollinations generation failed (attempt %d): %s", attempt + 1, exc)
+                logger.warning("Pollinations generation failed (try %d): %s", idx + 1, exc)
+            time.sleep(2.0)
         return False
 
     @staticmethod

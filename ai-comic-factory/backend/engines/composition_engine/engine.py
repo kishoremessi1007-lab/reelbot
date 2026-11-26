@@ -19,11 +19,22 @@ logger = logging.getLogger(__name__)
 def _load_font(size: int, bold: bool = False, style: str = "") -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
     candidates: List[str] = []
     if "noir" in style.lower() or "western" in style.lower():
-        candidates = ["C:/Windows/Fonts/georgia.ttf", "C:/Windows/Fonts/georgiab.ttf"] if not bold else ["C:/Windows/Fonts/georgiab.ttf"]
+        candidates = [
+            "C:/Windows/Fonts/georgiab.ttf" if bold else "C:/Windows/Fonts/georgia.ttf",
+            "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
+        ]
     elif "cyberpunk" in style.lower():
-        candidates = ["C:/Windows/Fonts/consolab.ttf" if bold else "C:/Windows/Fonts/consola.ttf"]
-    else:
-        candidates = ["C:/Windows/Fonts/arialbd.ttf" if bold else "C:/Windows/Fonts/arial.ttf", "C:/Windows/Fonts/segoeuib.ttf"]
+        candidates = [
+            "C:/Windows/Fonts/consolab.ttf" if bold else "C:/Windows/Fonts/consola.ttf",
+            "/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
+        ]
+
+    candidates.extend([
+        "C:/Windows/Fonts/arialbd.ttf" if bold else "C:/Windows/Fonts/arial.ttf",
+        "C:/Windows/Fonts/segoeuib.ttf" if bold else "C:/Windows/Fonts/segoeui.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+    ])
 
     for path in candidates:
         if Path(path).exists():
@@ -31,7 +42,10 @@ def _load_font(size: int, bold: bool = False, style: str = "") -> ImageFont.Free
                 return ImageFont.truetype(path, size=size)
             except Exception:
                 continue
-    return ImageFont.load_default()
+    try:
+        return ImageFont.load_default(size=size)
+    except TypeError:
+        return ImageFont.load_default()
 
 
 class CompositionEngine:
@@ -206,7 +220,7 @@ class CompositionEngine:
         badge_font = _load_font(24, bold=True, style=art_style)
 
         draw.text((border + 24, border + 24), series_title.upper()[:34], fill=fg, font=title_font)
-        badge_text = f"EP {episode_number:02d}" + (" • FEATURE" if is_individual else f" • {slide_index}/{total_slides}")
+        badge_text = f"EP {episode_number:02d}" + (" | FEATURE" if is_individual else f" | {slide_index}/{total_slides}")
         bbox = draw.textbbox((0, 0), badge_text, font=badge_font)
         bw = bbox[2] - bbox[0] + 32
         bx = self.TARGET_W - border - bw - 18
@@ -215,6 +229,8 @@ class CompositionEngine:
 
         # Narration box in upper safe zone (below header, above character faces)
         narration = (panel.get("narration") or "").strip()
+        if narration.lower() in ("none", "null", "n/a"):
+            narration = ""
         y_cursor = border + header_h + 18
         if narration:
             narr_font = _load_font(26, bold=True, style=art_style)
@@ -276,7 +292,7 @@ class CompositionEngine:
 
         # Footer episode title strip
         footer_font = _load_font(19, bold=True, style=art_style)
-        footer_label = f"{episode_title} • Swipe →" if (not is_individual and slide_index < total_slides) else episode_title
+        footer_label = f"{episode_title} | Swipe ->" if (not is_individual and slide_index < total_slides) else episode_title
         draw.text((border + 24, self.TARGET_H - border - 30), footer_label[:55], fill=fg, font=footer_font)
 
         out_path.parent.mkdir(parents=True, exist_ok=True)
