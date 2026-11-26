@@ -232,6 +232,13 @@ class PublishingEngine:
             self._mark_queue_failed(item, str(exc))
             return {"status": "failed", "error": str(exc)}
 
+    @staticmethod
+    def _post_graph(client: httpx.Client, url: str, data: Dict[str, Any]) -> Dict[str, Any]:
+        resp = client.post(url, data=data)
+        if resp.status_code >= 400:
+            raise RuntimeError(f"Instagram Graph API {resp.status_code} on {url}: {resp.text}")
+        return resp.json()
+
     def _publish_carousel(self, item: Dict[str, Any], ig_id: str, token: str) -> str:
         with get_db() as conn:
             post = row_to_dict(conn.execute("SELECT * FROM carousel_posts WHERE id = ?", (item["post_ref_id"],)).fetchone())
@@ -247,34 +254,34 @@ class PublishingEngine:
             for url in urls:
                 if not self.media_host.verify_public_url(url):
                     raise RuntimeError(f"Slide URL is not publicly reachable: {url}")
-                resp = client.post(
+                child_data = self._post_graph(
+                    client,
                     f"{self.graph_base}/{ig_id}/media",
-                    data={"image_url": url, "is_carousel_item": "true", "access_token": token},
+                    {"image_url": url, "is_carousel_item": "true", "access_token": token},
                 )
-                resp.raise_for_status()
-                child_id = resp.json()["id"]
+                child_id = child_data["id"]
                 self._wait_for_container(client, child_id, token)
                 child_ids.append(child_id)
 
-            parent_resp = client.post(
+            parent_data = self._post_graph(
+                client,
                 f"{self.graph_base}/{ig_id}/media",
-                data={
+                {
                     "media_type": "CAROUSEL",
                     "children": ",".join(child_ids),
                     "caption": post["caption"],
                     "access_token": token,
                 },
             )
-            parent_resp.raise_for_status()
-            parent_id = parent_resp.json()["id"]
+            parent_id = parent_data["id"]
             self._wait_for_container(client, parent_id, token)
 
-            pub_resp = client.post(
+            pub_data = self._post_graph(
+                client,
                 f"{self.graph_base}/{ig_id}/media_publish",
-                data={"creation_id": parent_id, "access_token": token},
+                {"creation_id": parent_id, "access_token": token},
             )
-            pub_resp.raise_for_status()
-            return pub_resp.json()["id"]
+            return pub_data["id"]
 
     def _publish_individual(self, item: Dict[str, Any], ig_id: str, token: str) -> str:
         with get_db() as conn:
@@ -287,20 +294,20 @@ class PublishingEngine:
             raise RuntimeError(f"Individual page URL is not publicly reachable: {url}")
 
         with httpx.Client(timeout=30.0) as client:
-            resp = client.post(
+            cont_data = self._post_graph(
+                client,
                 f"{self.graph_base}/{ig_id}/media",
-                data={"image_url": url, "caption": post["caption"], "access_token": token},
+                {"image_url": url, "caption": post["caption"], "access_token": token},
             )
-            resp.raise_for_status()
-            container_id = resp.json()["id"]
+            container_id = cont_data["id"]
             self._wait_for_container(client, container_id, token)
 
-            pub_resp = client.post(
+            pub_data = self._post_graph(
+                client,
                 f"{self.graph_base}/{ig_id}/media_publish",
-                data={"creation_id": container_id, "access_token": token},
+                {"creation_id": container_id, "access_token": token},
             )
-            pub_resp.raise_for_status()
-            return pub_resp.json()["id"]
+            return pub_data["id"]
 
     def _wait_for_container(self, client: httpx.Client, container_id: str, token: str, timeout: int = 60) -> None:
         deadline = time.time() + timeout

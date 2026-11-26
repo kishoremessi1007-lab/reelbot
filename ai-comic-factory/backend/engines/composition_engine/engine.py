@@ -78,7 +78,7 @@ class CompositionEngine:
                 raw = raw_by_panel.get(panel["id"])
                 if not raw:
                     raise RuntimeError(f"Missing raw artwork for carousel panel {panel['id']}")
-                out_path = carousel_dir / f"slide_{idx:02d}.png"
+                out_path = carousel_dir / f"slide_{idx:02d}.jpg"
                 self._compose_page(
                     raw_path=Path(raw["file_path"]),
                     out_path=out_path,
@@ -101,7 +101,7 @@ class CompositionEngine:
                 raw = raw_by_panel.get(indiv_panel["id"])
                 if not raw:
                     raise RuntimeError(f"Missing raw artwork for individual panel {indiv_panel['id']}")
-                out_path = indiv_dir / f"episode_{ep_num:02d}_page.png"
+                out_path = indiv_dir / f"episode_{ep_num:02d}_page.jpg"
                 self._compose_page(
                     raw_path=Path(raw["file_path"]),
                     out_path=out_path,
@@ -280,7 +280,10 @@ class CompositionEngine:
         draw.text((border + 24, self.TARGET_H - border - 30), footer_label[:55], fill=fg, font=footer_font)
 
         out_path.parent.mkdir(parents=True, exist_ok=True)
-        canvas.save(out_path, format="PNG")
+        if out_path.suffix.lower() in (".jpg", ".jpeg"):
+            canvas.convert("RGB").save(out_path, format="JPEG", quality=95)
+        else:
+            canvas.save(out_path, format="PNG")
 
 
 class QualityController:

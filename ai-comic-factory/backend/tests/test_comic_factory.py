@@ -108,6 +108,7 @@ def test_publishing_idempotency_and_mocked_instagram_api(temp_env: Path, monkeyp
 
         def fake_post(url, data=None, **kwargs):
             resp = MagicMock()
+            resp.status_code = 200
             resp.raise_for_status = MagicMock()
             if url.endswith("/media_publish"):
                 resp.json.return_value = {"id": "ig_published_999"}

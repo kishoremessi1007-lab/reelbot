@@ -238,7 +238,9 @@ def download_image(image_id: int):
         img = row_to_dict(conn.execute("SELECT * FROM generated_images WHERE id = ?", (image_id,)).fetchone())
     if not img or not Path(img["file_path"]).exists():
         raise HTTPException(status_code=404, detail="Image not found")
-    return FileResponse(img["file_path"], filename=Path(img["file_path"]).name, media_type="image/png")
+    file_path = Path(img["file_path"])
+    media_type = "image/jpeg" if file_path.suffix.lower() in (".jpg", ".jpeg") else "image/png"
+    return FileResponse(img["file_path"], filename=file_path.name, media_type=media_type)
 
 
 @app.get("/api/publishing/queue")
