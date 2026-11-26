@@ -33,7 +33,9 @@ class PublishingEngine:
 
     @property
     def graph_base(self) -> str:
-        return f"https://graph.facebook.com/{settings.instagram_graph_api_version}"
+        token = settings.resolved_instagram_access_token
+        host = "graph.instagram.com" if token.startswith("IG") else "graph.facebook.com"
+        return f"https://{host}/{settings.instagram_graph_api_version}"
 
     def prepare_episode_posts(self, series: Dict[str, Any], episode: Dict[str, Any]) -> Dict[str, Any]:
         """Create carousel_posts, individual_posts, and idempotent publishing_queue entries."""
