@@ -1,0 +1,102 @@
+{
+  "name": "AI Comic Factory - Autonomous Daily Production & Staggered Publishing",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 6 * * *"
+            }
+          ]
+        }
+      },
+      "id": "trigger-daily-production",
+      "name": "Daily Production Trigger (06:00)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [220, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://backend:8000/api/episodes/produce",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"queue_for_publishing\": true}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "http-produce-episode",
+      "name": "Produce Next Episode (Workflow B+D)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [480, 200]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 10 * * *"
+            }
+          ]
+        }
+      },
+      "id": "trigger-carousel-publish",
+      "name": "Staggered Carousel Publish (10:00)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [220, 400]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 18 * * *"
+            }
+          ]
+        }
+      },
+      "id": "trigger-individual-publish",
+      "name": "Staggered Individual Page Publish (18:00)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [220, 580]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://backend:8000/api/publishing/run-due",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "http-run-due-publishing",
+      "name": "Dispatch Due Instagram Posts (Workflow C)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [480, 490]
+    }
+  ],
+  "connections": {
+    "Daily Production Trigger (06:00)": {
+      "main": [[{"node": "Produce Next Episode (Workflow B+D)", "type": "main", "index": 0}]]
+    },
+    "Staggered Carousel Publish (10:00)": {
+      "main": [[{"node": "Dispatch Due Instagram Posts (Workflow C)", "type": "main", "index": 0}]]
+    },
+    "Staggered Individual Page Publish (18:00)": {
+      "main": [[{"node": "Dispatch Due Instagram Posts (Workflow C)", "type": "main", "index": 0}]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

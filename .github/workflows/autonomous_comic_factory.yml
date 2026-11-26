@@ -1,0 +1,116 @@
+name: Autonomous AI Comic Factory
+
+on:
+  schedule:
+    # 06:00 IST (00:30 UTC) — Produce next comic episode & commit generated assets
+    - cron: "30 0 * * *"
+    # 10:00 IST (04:30 UTC) — Publish staggered Carousel post to Instagram
+    - cron: "30 4 * * *"
+    # 18:00 IST (12:30 UTC) — Publish staggered Individual Comic Page post to Instagram
+    - cron: "30 12 * * *"
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Workflow action to run"
+        required: true
+        default: "produce_and_publish_carousel"
+        type: choice
+        options:
+          - produce
+          - publish_carousel
+          - publish_individual
+          - produce_and_publish_carousel
+
+permissions:
+  contents: write
+
+jobs:
+  comic-factory:
+    runs-on: ubuntu-latest
+    env:
+      LLM_PROVIDER: gemini
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      MEDIA_HOSTING_PROVIDER: github_raw
+      GITHUB_REPOSITORY: ${{ github.repository }}
+      GITHUB_BRANCH: ${{ github.ref_name }}
+      COMFYUI_ENABLE_FALLBACK_RENDERER: "true"
+      SCHEDULER_ENABLED: "false"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Locate project root
+        id: paths
+        run: |
+          if [ -d "ai-comic-factory" ]; then
+            echo "workdir=ai-comic-factory" >> $GITHUB_OUTPUT
+          else
+            echo "workdir=." >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install Python dependencies
+        working-directory: ${{ steps.paths.outputs.workdir }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Produce next comic episode
+        if: >
+          github.event.schedule == '30 0 * * *' ||
+          github.event.inputs.action == 'produce' ||
+          github.event.inputs.action == 'produce_and_publish_carousel'
+        working-directory: ${{ steps.paths.outputs.workdir }}
+        run: python scripts/ci_run.py --mode produce
+
+      - name: Commit & push generated comics and SQLite state (before publishing)
+        if: >
+          github.event.schedule == '30 0 * * *' ||
+          github.event.inputs.action == 'produce' ||
+          github.event.inputs.action == 'produce_and_publish_carousel'
+        run: |
+          git config user.name "AI Comic Factory Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: produce new comic episode [skip ci]"
+            git push
+          fi
+
+      - name: Publish Instagram Carousel post
+        if: >
+          github.event.schedule == '30 4 * * *' ||
+          github.event.inputs.action == 'publish_carousel' ||
+          github.event.inputs.action == 'produce_and_publish_carousel'
+        working-directory: ${{ steps.paths.outputs.workdir }}
+        run: python scripts/ci_run.py --mode publish_carousel
+
+      - name: Publish Instagram Individual Comic Page post
+        if: >
+          github.event.schedule == '30 12 * * *' ||
+          github.event.inputs.action == 'publish_individual'
+        working-directory: ${{ steps.paths.outputs.workdir }}
+        run: python scripts/ci_run.py --mode publish_individual
+
+      - name: Commit & push updated publishing state
+        if: >
+          github.event.schedule == '30 4 * * *' ||
+          github.event.schedule == '30 12 * * *' ||
+          github.event.inputs.action == 'publish_carousel' ||
+          github.event.inputs.action == 'publish_individual' ||
+          github.event.inputs.action == 'produce_and_publish_carousel'
+        run: |
+          git config user.name "AI Comic Factory Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update publishing queue and continuity [skip ci]"
+            git push
+          fi
