@@ -161,7 +161,7 @@ class PublishingEngine:
             with httpx.Client(timeout=10.0) as client:
                 resp = client.get(
                     f"{self.graph_base}/{ig_id}",
-                    params={"fields": "id,username,account_type", "access_token": token},
+                    params={"fields": "id,username", "access_token": token},
                 )
                 if resp.status_code == 200:
                     data = resp.json()
