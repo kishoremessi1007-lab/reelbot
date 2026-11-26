@@ -57,9 +57,7 @@ class OllamaClient:
     ) -> Optional[Dict[str, Any]]:
         """Generate structured JSON using Ollama (default) or Gemini when LLM_PROVIDER=gemini."""
         if settings.llm_provider.lower() == "gemini" and settings.gemini_api_key:
-            result = self._generate_json_gemini(prompt, system_prompt, temperature, max_retries)
-            if result is not None:
-                return result
+            return self._generate_json_gemini(prompt, system_prompt, temperature, max_retries)
 
         payload = {
             "model": self.model,
@@ -92,7 +90,7 @@ class OllamaClient:
         temperature: float,
         max_retries: int,
     ) -> Optional[Dict[str, Any]]:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{settings.gemini_model}:generateContent"
+        models_to_try = list(dict.fromkeys([settings.gemini_model, "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]))
         full_prompt = f"{system_prompt}\n\n{prompt}".strip() if system_prompt else prompt
         payload = {
             "contents": [{"parts": [{"text": full_prompt}]}],
@@ -101,23 +99,30 @@ class OllamaClient:
                 "responseMimeType": "application/json",
             },
         }
-        for attempt in range(max_retries + 1):
-            try:
-                with httpx.Client(timeout=60.0) as client:
-                    resp = client.post(url, params={"key": settings.gemini_api_key}, json=payload)
-                    resp.raise_for_status()
-                    data = resp.json()
-                    raw_text = (
-                        data.get("candidates", [{}])[0]
-                        .get("content", {})
-                        .get("parts", [{}])[0]
-                        .get("text", "")
-                    )
-                    parsed = self._extract_json(raw_text)
-                    if parsed is not None:
-                        return parsed
-            except Exception as exc:
-                logger.warning("Gemini request failed (attempt %d/%d): %s", attempt + 1, max_retries + 1, exc)
+        for model_name in models_to_try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent"
+            for attempt in range(max_retries + 1):
+                try:
+                    with httpx.Client(timeout=60.0) as client:
+                        resp = client.post(url, params={"key": settings.gemini_api_key}, json=payload)
+                        if resp.status_code == 404:
+                            logger.warning("Gemini model %s returned 404, trying next model.", model_name)
+                            break
+                        if resp.status_code >= 400:
+                            logger.warning("Gemini %s HTTP %d: %s", model_name, resp.status_code, resp.text[:300])
+                            continue
+                        data = resp.json()
+                        raw_text = (
+                            data.get("candidates", [{}])[0]
+                            .get("content", {})
+                            .get("parts", [{}])[0]
+                            .get("text", "")
+                        )
+                        parsed = self._extract_json(raw_text)
+                        if parsed is not None:
+                            return parsed
+                except Exception as exc:
+                    logger.warning("Gemini request failed (%s attempt %d/%d): %s", model_name, attempt + 1, max_retries + 1, exc)
         return None
 
     @staticmethod

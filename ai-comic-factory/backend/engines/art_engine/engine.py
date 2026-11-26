@@ -1,13 +1,17 @@
 from __future__ import annotations
 
 import hashlib
+import io
 import json
 import logging
 import math
+import os
 import random
+import urllib.parse
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+import httpx
 from PIL import Image, ImageDraw, ImageFilter
 
 from backend.config import settings
@@ -63,6 +67,17 @@ class ArtEngine:
                         height=settings.comfyui_height,
                         output_path=out_path,
                     )
+
+                if not success and settings.enable_pollinations_fallback and "PYTEST_CURRENT_TEST" not in os.environ:
+                    success = self._generate_pollinations_image(
+                        prompt=positive_prompt,
+                        seed=int(char["seed"]),
+                        width=settings.comfyui_width,
+                        height=settings.comfyui_height,
+                        out_path=out_path,
+                    )
+                    if success:
+                        backend_used = "pollinations_flux"
 
                 if not success:
                     if not settings.comfyui_enable_fallback_renderer:
@@ -180,6 +195,17 @@ class ArtEngine:
                         reference_image_name=ref_image_name,
                     )
 
+                if not success and settings.enable_pollinations_fallback and "PYTEST_CURRENT_TEST" not in os.environ:
+                    success = self._generate_pollinations_image(
+                        prompt=positive_prompt,
+                        seed=seed,
+                        width=settings.comfyui_width,
+                        height=settings.comfyui_height,
+                        out_path=out_path,
+                    )
+                    if success:
+                        backend_used = "pollinations_flux"
+
                 if not success:
                     if not settings.comfyui_enable_fallback_renderer:
                         raise RuntimeError(f"ComfyUI unavailable for panel #{panel['id']}")
@@ -229,6 +255,35 @@ class ArtEngine:
             )
 
         return generated
+
+    @staticmethod
+    def _generate_pollinations_image(
+        prompt: str,
+        seed: int,
+        width: int,
+        height: int,
+        out_path: Path,
+    ) -> bool:
+        """Generate real AI comic artwork via free Pollinations.ai Flux endpoint when ComfyUI is offline."""
+        encoded = urllib.parse.quote(prompt[:900], safe="")
+        url = (
+            f"https://image.pollinations.ai/prompt/{encoded}"
+            f"?width={width}&height={height}&seed={seed}&model=flux&nologo=true"
+        )
+        for attempt in range(2):
+            try:
+                with httpx.Client(timeout=60.0, follow_redirects=True) as client:
+                    resp = client.get(url)
+                    if resp.status_code == 200 and len(resp.content) > 5000:
+                        with Image.open(io.BytesIO(resp.content)) as im:
+                            rgb = im.convert("RGB").resize((width, height), Image.Resampling.LANCZOS)
+                            out_path.parent.mkdir(parents=True, exist_ok=True)
+                            rgb.save(out_path, format="PNG")
+                        return True
+                    logger.warning("Pollinations HTTP %d (attempt %d)", resp.status_code, attempt + 1)
+            except Exception as exc:
+                logger.warning("Pollinations generation failed (attempt %d): %s", attempt + 1, exc)
+        return False
 
     @staticmethod
     def _color_from_name(name: str, fallback: Tuple[int, int, int]) -> Tuple[int, int, int]:

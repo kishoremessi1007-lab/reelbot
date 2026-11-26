@@ -32,7 +32,7 @@ class Settings(BaseSettings):
     ollama_model: str = "llama3.1:8b"
     ollama_timeout_seconds: int = 180
     gemini_api_key: str = ""
-    gemini_model: str = "gemini-2.0-flash"
+    gemini_model: str = "gemini-2.5-flash"
 
     # ComfyUI
     comfyui_base_url: str = "http://127.0.0.1:8188"
@@ -42,6 +42,7 @@ class Settings(BaseSettings):
     comfyui_steps: int = 25
     comfyui_cfg: float = 7.5
     comfyui_enable_fallback_renderer: bool = True
+    enable_pollinations_fallback: bool = True
 
     # Instagram Graph API (supports both INSTAGRAM_* and IG_* env names)
     instagram_access_token: str = ""
